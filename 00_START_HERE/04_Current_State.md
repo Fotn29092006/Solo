@@ -69,6 +69,7 @@ Shared
 - Supabase CLI project listing is blocked because no CLI access token is available in the workspace environment.
 - No Supabase MCP SQL/migration resources are exposed to this Codex session.
 - Supabase MVP spine live verification script exists at `scripts/verify-supabase-mvp-spine.mjs` and is exposed as `npm run verify:supabase:mvp`.
+- The Supabase MVP spine verifier now exits cleanly with a non-zero status when tables are unavailable.
 - A live REST probe with the local service role key returned HTTP 404 for all eight MVP tables on 2026-04-16.
 - The Level 3 Telegram identity and onboarding connection plan has been recorded, but implementation streams are blocked because `npm run verify:supabase:mvp` still returns HTTP 404 for all eight MVP tables.
 - Supabase MVP spine migration exists at `supabase/migrations/0001_mvp_spine.sql`.

@@ -92,3 +92,4 @@ Shared
 - Re-ran the DB gate; `npm run verify:supabase:mvp` still returned HTTP 404 for all eight MVP tables.
 - Recorded the Level 3 workstream map in `Parallel_Workstreams.md` with downstream implementation streams blocked behind P1-DB-GATE.
 - Recorded that the current tool environment cannot run 10-15 agents at once; it enforces a hard active-agent thread limit, so future parallel work must run in waves after the DB gate passes.
+- Stabilized `npm run verify:supabase:mvp` so failed table checks return a clean non-zero exit code without the Windows Node assertion that appeared after the 404 probe.

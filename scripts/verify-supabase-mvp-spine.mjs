@@ -78,34 +78,34 @@ if (!supabaseUrl || !serviceRoleKey) {
   console.error(
     "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. Set them in .env.local or the process environment.",
   );
-  process.exit(1);
-}
+  process.exitCode = 1;
+} else {
+  console.log("Checking Supabase MVP spine tables...");
 
-console.log("Checking Supabase MVP spine tables...");
-
-const results = await Promise.all(
-  requiredTables.map((table) =>
-    probeTable({
-      baseUrl: supabaseUrl,
-      serviceRoleKey,
-      table,
-    }),
-  ),
-);
-
-for (const result of results) {
-  console.log(`${result.table}: ${result.status}`);
-}
-
-const missingTables = results.filter((result) => !result.ok);
-
-if (missingTables.length > 0) {
-  console.error(
-    `MVP spine verification failed. Unavailable tables: ${missingTables
-      .map((result) => `${result.table}(${result.status})`)
-      .join(", ")}`,
+  const results = await Promise.all(
+    requiredTables.map((table) =>
+      probeTable({
+        baseUrl: supabaseUrl,
+        serviceRoleKey,
+        table,
+      }),
+    ),
   );
-  process.exit(1);
-}
 
-console.log("MVP spine verification passed.");
+  for (const result of results) {
+    console.log(`${result.table}: ${result.status}`);
+  }
+
+  const missingTables = results.filter((result) => !result.ok);
+
+  if (missingTables.length > 0) {
+    console.error(
+      `MVP spine verification failed. Unavailable tables: ${missingTables
+        .map((result) => `${result.table}(${result.status})`)
+        .join(", ")}`,
+    );
+    process.exitCode = 1;
+  } else {
+    console.log("MVP spine verification passed.");
+  }
+}
