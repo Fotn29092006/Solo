@@ -68,3 +68,11 @@ Shared
 - Added Vitest as the TypeScript unit test runner.
 - Added Telegram init-data validation tests for valid signatures, tampering, missing hash, stale/future auth dates, missing bot token, malformed user JSON, and bot users.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`.
+- Continued with a Level 2 DB/QA Supabase migration apply path verification pass.
+- Verified required local env variable presence without printing secret values.
+- Confirmed Supabase CLI 2.84.2 is installed locally.
+- Confirmed `supabase/config.toml` is absent, so the workspace is not linked as a Supabase CLI project.
+- Confirmed `supabase projects list` is blocked because no CLI access token is available in the workspace environment.
+- Confirmed no Supabase MCP SQL/migration resources are exposed to this Codex session.
+- Re-verified Supabase Auth settings health with local development credentials; the endpoint returned HTTP 200.
+- Recorded that the MVP migration remains unapplied from this workspace and is blocked on Dashboard SQL execution or Supabase CLI authentication/linking.

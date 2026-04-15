@@ -30,14 +30,18 @@ Wire the foundation runtime into real Telegram and Supabase flows.
 
 Next tasks:
 
-1. Choose and execute the first migration apply path: Supabase Dashboard SQL editor or Supabase CLI link/db push.
-2. Verify the eight MVP tables exist after migration apply.
+1. Apply the MVP spine migration through Supabase Dashboard SQL editor, or configure Supabase CLI auth/linking and then run the CLI migration path.
+2. Verify the eight MVP tables exist after migration apply using Dashboard table/SQL verification or an authenticated CLI SQL path.
 3. Implement a server route that validates Telegram init data and looks up or creates `profiles` by `telegram_user_id`.
 4. Wire onboarding structure to create `goals` and `user_paths` through the validated server identity path.
 5. Define first real daily quest seed data and XP event write path.
 6. Rotate the Telegram Bot token and Supabase service role key before production use.
 7. Configure BotFather/Mini App launch URL when the public Mini App URL exists.
 8. Finalize exact public app name and MVP domain boundaries.
+
+Current blocker:
+
+- This workspace has Supabase CLI 2.84.2, but it is not linked to the Supabase project and has no CLI access token available. Migration apply cannot be completed from Codex until Dashboard SQL is run manually or CLI authentication/linking is configured.
 
 Do not change:
 

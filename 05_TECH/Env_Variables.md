@@ -26,6 +26,10 @@ Expected variables:
 - `TELEGRAM_BOT_USERNAME`
 - `TELEGRAM_MINI_APP_URL`
 
+Migration/admin-only variable:
+
+- `SUPABASE_ACCESS_TOKEN` is only for Supabase CLI administrative workflows when using CLI auth in automation. It is not an app runtime variable and must not be committed.
+
 Never commit real secrets.
 
 Workspace files:
@@ -52,3 +56,4 @@ Verified local status:
 - Telegram Bot token is present in ignored `.env.local`.
 - Telegram Bot username is present in ignored `.env.local`.
 - Telegram Mini App URL is not set yet.
+- Supabase CLI access token is not available in the current workspace environment, so CLI project listing/linking and migration push are blocked.

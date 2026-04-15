@@ -26,6 +26,9 @@ Current workspace setup:
 - Connection test route exists at `src/app/api/health/supabase/route.ts` and checks `auth/v1/settings` with the anon key.
 - First migration exists at `supabase/migrations/0001_mvp_spine.sql`.
 - Live Supabase health against `auth/v1/settings` has passed with local development credentials.
+- Supabase CLI is installed locally at version 2.84.2.
+- The workspace is not currently linked as a Supabase CLI project because `supabase/config.toml` is absent.
+- `supabase projects list` is blocked because no Supabase CLI access token is available in the workspace environment.
 
 Implementation rules:
 
@@ -60,8 +63,10 @@ Apply migration:
 - This migration is prepared for a fresh Supabase development target or clean migration history.
 - Do not repeatedly run it manually against a database where these tables already exist.
 - Applying from this workspace requires a Supabase CLI login/link or a database connection path, not only anon/service-role API keys.
+- Do not attempt migration DDL through service-role API-key workarounds.
 - Acceptable manual path: review the SQL and run it once in the Supabase Dashboard SQL editor for the development project.
 - After applying, verify table presence and keep direct client access disabled until the RLS/JWT strategy is finalized.
+- Current status: not applied from this workspace. Blocked on Dashboard SQL execution or Supabase CLI authentication/linking.
 
 Manual setup still required:
 

@@ -41,6 +41,14 @@ Never commit real keys.
 
 To apply from CLI, the workspace needs Supabase CLI authentication and project linking. API keys alone are not enough to run SQL migrations from this repo.
 
+Current workspace status:
+
+- Supabase CLI is installed locally at version 2.84.2.
+- `supabase/config.toml` is not present, so the workspace is not linked.
+- `supabase projects list` is blocked until a CLI access token or login exists.
+- No Supabase MCP SQL/migration resource is available to this Codex session.
+- Do not use service-role API-key workarounds for DDL.
+
 Manual development path:
 
 1. Review `supabase/migrations/0001_mvp_spine.sql`.

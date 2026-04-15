@@ -77,3 +77,9 @@ Shared
 - Role: QA.
 - Reviewer: Telegram, Backend.
 - Follow-up: Keep auth/trust-boundary code covered before wiring persistence.
+- Decision: Supabase schema changes must use reviewed migration SQL through Supabase Dashboard SQL editor or an authenticated Supabase CLI workflow, not service-role API-key workarounds.
+- Reason: DDL must stay controlled, reviewable, and separate from runtime API credentials.
+- Scope: [[../05_TECH/Supabase_Setup]], [[../05_TECH/Security]], [[../04_DATA/Database_Schema]], and `supabase/README.md`.
+- Role: DB.
+- Reviewer: QA, Backend.
+- Follow-up: Apply `supabase/migrations/0001_mvp_spine.sql` only after Dashboard SQL access or Supabase CLI auth/linking is available.

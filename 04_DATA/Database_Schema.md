@@ -22,6 +22,8 @@ Schema is not finalized.
 Current foundation migration:
 
 - `supabase/migrations/0001_mvp_spine.sql`
+- Apply status: prepared and reviewed, but not applied from this workspace.
+- Current blocker: Supabase CLI auth/linking or a manual Supabase Dashboard SQL run is required before the live development database can be migrated.
 
 Current MVP spine tables:
 

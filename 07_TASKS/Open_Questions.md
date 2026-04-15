@@ -29,4 +29,4 @@ Shared
 - Will body photos be in MVP?
 - What Supabase region and project naming should be used?
 - Which Draft docs must graduate to Active before app scaffolding starts?
-- Should the first Supabase migration be applied manually through the Dashboard SQL editor or through a linked Supabase CLI workflow?
+- Who will execute the first Supabase migration apply path: manual Dashboard SQL editor, or a linked Supabase CLI workflow with an access token and project link?
