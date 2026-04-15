@@ -44,3 +44,7 @@ Shared
 - Added onboarding structure and Home screen shell placeholders for level, XP, quests, and streaks.
 - Added `.env.example` and the MVP Supabase spine migration with eight tables.
 - Verified `npm run typecheck` and `npm run build`.
+- Added Supabase development env values to ignored `.env.local`.
+- Verified the Supabase anon key against the Auth settings endpoint.
+- Updated the Supabase health route to check `auth/v1/settings`.
+- Recorded that the Supabase service role key and Telegram Bot token should be rotated before production because they were shared in chat.

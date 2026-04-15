@@ -49,12 +49,13 @@ Shared
 - Supabase browser client setup exists at `src/lib/supabase/client.ts`.
 - Supabase connection health route exists at `src/app/api/health/supabase/route.ts`.
 - Tracked `.env.example` documents required Telegram and Supabase variables.
+- Ignored local `.env.local` contains Supabase URL, anon key, service role key, Telegram Bot token, and Telegram Bot username for development.
+- Supabase URL and anon key were verified against the Supabase Auth settings endpoint.
 - Supabase MVP spine migration exists at `supabase/migrations/0001_mvp_spine.sql`.
 - The MVP spine currently includes only `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
 - `npm run typecheck` passes.
 - `npm run build` passes.
 - Supabase project credentials are not present in tracked files.
-- Ignored local `.env.local` exists with `TELEGRAM_BOT_TOKEN` for development.
 - Telegram Mini App client foundation exists, but BotFather/Mini App launch configuration is not present in this workspace.
 
 Known risks:
@@ -63,4 +64,4 @@ Known risks:
 - XP/rank systems can become fake if scoring rules are weak.
 - Telegram reminders can become spammy if triggers are not controlled.
 - Too many logging surfaces can create daily friction.
-- The current Telegram Bot token was shared in chat and should be rotated before production use.
+- The current Telegram Bot token and Supabase service role key were shared in chat and should be rotated before production use.

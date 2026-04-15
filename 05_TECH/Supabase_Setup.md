@@ -21,8 +21,9 @@ Current workspace setup:
 
 - Tracked `.env.example` documents required Supabase variables.
 - Ignored `.env.local` is the local place for real Supabase values.
+- Ignored `.env.local` currently contains development Supabase URL, anon key, and service role key.
 - Browser client setup exists at `src/lib/supabase/client.ts`.
-- Connection test route exists at `src/app/api/health/supabase/route.ts`.
+- Connection test route exists at `src/app/api/health/supabase/route.ts` and checks `auth/v1/settings` with the anon key.
 - First migration exists at `supabase/migrations/0001_mvp_spine.sql`.
 
 Implementation rules:
@@ -45,7 +46,6 @@ Foundation migration:
 
 Manual setup still required:
 
-- Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to ignored `.env.local`.
-- Add `SUPABASE_SERVICE_ROLE_KEY` only when server-side privileged operations exist.
 - Apply or review the migration in a Supabase development environment.
 - Verify `/api/health/supabase` after environment variables are set.
+- Rotate the Supabase service role key before production use because it was shared in chat.

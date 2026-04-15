@@ -28,12 +28,12 @@ Wire the foundation runtime into real Telegram and Supabase flows.
 
 Next tasks:
 
-1. Add Supabase URL and anon key to ignored `.env.local`, then verify `/api/health/supabase` against the live project.
-2. Apply or review `supabase/migrations/0001_mvp_spine.sql` in a Supabase development environment.
-3. Implement server-side Telegram init data validation before trusting Telegram user data.
-4. Wire onboarding structure to create `profiles`, `goals`, and `user_paths`.
-5. Define first real daily quest seed data and XP event write path.
-6. Rotate the Telegram Bot token before production use.
+1. Apply or review `supabase/migrations/0001_mvp_spine.sql` in a Supabase development environment.
+2. Implement server-side Telegram init data validation before trusting Telegram user data.
+3. Wire onboarding structure to create `profiles`, `goals`, and `user_paths`.
+4. Define first real daily quest seed data and XP event write path.
+5. Rotate the Telegram Bot token and Supabase service role key before production use.
+6. Configure BotFather/Mini App launch URL when the public Mini App URL exists.
 7. Finalize exact public app name and MVP domain boundaries.
 
 Do not change:

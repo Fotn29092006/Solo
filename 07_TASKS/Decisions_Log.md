@@ -44,3 +44,4 @@ Shared
 - Full Telegram Bot behavior and server-side Telegram init data validation are deferred to the next pass.
 - Supabase setup starts with a browser client, a server health route, tracked `.env.example`, and one MVP spine migration.
 - The first Supabase migration is intentionally limited to `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
+- Supabase health checks use `auth/v1/settings` with the anon key because the REST table surface depends on schema/table state.

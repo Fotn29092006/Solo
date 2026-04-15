@@ -32,9 +32,11 @@ Workspace files:
 
 - `.env.example` is tracked and contains empty placeholders.
 - `.env.local` is ignored and stores local development values.
+- `.env.local` currently contains Supabase URL, anon key, service role key, Telegram Bot token, and Telegram Bot username.
 
 Current runtime usage:
 
 - `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are required for the Supabase health route and browser client.
 - `TELEGRAM_BOT_TOKEN` is present locally for development but must be rotated before production because it was shared in chat.
 - `SUPABASE_SERVICE_ROLE_KEY` must not be used in client-side modules.
+- `SUPABASE_SERVICE_ROLE_KEY` must be rotated before production because it was shared in chat.

@@ -3,6 +3,8 @@ import { clientEnv, hasSupabasePublicConfig } from "@/config/env";
 
 export const dynamic = "force-dynamic";
 
+const SUPABASE_HEALTH_TIMEOUT_MS = 8000;
+
 export async function GET() {
   if (!hasSupabasePublicConfig()) {
     return NextResponse.json({
@@ -13,20 +15,22 @@ export async function GET() {
   }
 
   const baseUrl = clientEnv.supabaseUrl.replace(/\/$/, "");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), SUPABASE_HEALTH_TIMEOUT_MS);
 
   try {
-    const response = await fetch(`${baseUrl}/rest/v1/`, {
+    const response = await fetch(`${baseUrl}/auth/v1/settings`, {
       cache: "no-store",
+      signal: controller.signal,
       headers: {
-        apikey: clientEnv.supabaseAnonKey,
-        Authorization: `Bearer ${clientEnv.supabaseAnonKey}`
+        apikey: clientEnv.supabaseAnonKey
       }
     });
 
     return NextResponse.json({
       ok: response.ok,
       status: response.status,
-      message: response.ok ? "Supabase REST endpoint reachable." : "Supabase returned a non-OK status."
+      message: response.ok ? "Supabase project reachable." : "Supabase returned a non-OK status."
     });
   } catch (error) {
     return NextResponse.json(
@@ -37,5 +41,7 @@ export async function GET() {
       },
       { status: 502 }
     );
+  } finally {
+    clearTimeout(timeout);
   }
 }
