@@ -10,7 +10,7 @@ Draft
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[Data_Model_Overview]]
@@ -24,6 +24,8 @@ Current foundation migration:
 - `supabase/migrations/0001_mvp_spine.sql`
 - Apply status: prepared and reviewed, but not applied from this workspace.
 - Current blocker: Supabase CLI auth/linking or a manual Supabase Dashboard SQL run is required before the live development database can be migrated.
+- Live verification: `npm run verify:supabase:mvp` checks the eight MVP tables with the service role key and fails until the migration is applied.
+- Latest live probe: all eight MVP tables returned HTTP 404 on 2026-04-16.
 
 Current MVP spine tables:
 

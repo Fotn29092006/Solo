@@ -48,13 +48,16 @@ Current workspace status:
 - `supabase projects list` is blocked until a CLI access token or login exists.
 - No Supabase MCP SQL/migration resource is available to this Codex session.
 - Do not use service-role API-key workarounds for DDL.
+- `npm run verify:supabase:mvp` can verify table presence after the migration is applied. It uses local admin credentials and does not print secrets.
+- Latest live verification on 2026-04-16 returned HTTP 404 for all eight MVP tables, so the migration still needs to be applied.
 
 Manual development path:
 
 1. Review `supabase/migrations/0001_mvp_spine.sql`.
 2. Confirm the target Supabase project does not already contain these tables.
 3. Run the SQL once in the Supabase Dashboard SQL editor.
-4. Verify table presence and keep anon/client table access disabled.
+4. Run `npm run verify:supabase:mvp`.
+5. Keep anon/client table access disabled until the RLS/JWT strategy is finalized.
 
 ## First Local Check
 After environment variables are configured:

@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[Decisions_Log]]
@@ -30,3 +30,4 @@ Shared
 - What Supabase region and project naming should be used?
 - Which Draft docs must graduate to Active before app scaffolding starts?
 - Who will execute the first Supabase migration apply path: manual Dashboard SQL editor, or a linked Supabase CLI workflow with an access token and project link?
+- After migration apply, does `npm run verify:supabase:mvp` pass for all eight tables?

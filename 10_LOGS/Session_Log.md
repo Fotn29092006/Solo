@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[../00_START_HERE/04_Current_State]]
@@ -76,3 +76,14 @@ Shared
 - Confirmed no Supabase MCP SQL/migration resources are exposed to this Codex session.
 - Re-verified Supabase Auth settings health with local development credentials; the endpoint returned HTTP 200.
 - Recorded that the MVP migration remains unapplied from this workspace and is blocked on Dashboard SQL execution or Supabase CLI authentication/linking.
+
+2026-04-16:
+
+- Continued from the Supabase migration blocker.
+- Ran a live service-role REST probe without printing secrets.
+- Confirmed `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks` all return HTTP 404 in the live development project.
+- Added `scripts/verify-supabase-mvp-spine.mjs`.
+- Added `npm run verify:supabase:mvp` for repeatable post-migration table verification.
+- Confirmed `npm run verify:supabase:mvp` runs and currently fails with HTTP 404 for all eight MVP tables, as expected before migration apply.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`.
+- Kept profile creation and data write implementation blocked until the migration is applied and verification passes.

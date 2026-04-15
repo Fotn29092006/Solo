@@ -10,7 +10,7 @@ Draft
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[Supabase_Setup]]
@@ -45,6 +45,7 @@ Current runtime usage:
 - `TELEGRAM_BOT_TOKEN` is present locally for development but must be rotated before production because it was shared in chat.
 - `SUPABASE_SERVICE_ROLE_KEY` must not be used in client-side modules.
 - `SUPABASE_SERVICE_ROLE_KEY` is reserved for server-side profile/data operations after Telegram identity validation.
+- `SUPABASE_SERVICE_ROLE_KEY` is also used by `npm run verify:supabase:mvp` for local admin verification of table existence; the script must never print the key.
 - `SUPABASE_SERVICE_ROLE_KEY` must be rotated before production because it was shared in chat.
 - `TELEGRAM_MINI_APP_URL` is currently empty locally because no public Mini App launch URL is configured yet.
 

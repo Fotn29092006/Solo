@@ -10,7 +10,7 @@ Draft
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[Supabase_Setup]]
@@ -36,6 +36,7 @@ Security baseline:
 - Keep `TELEGRAM_BOT_TOKEN` and `SUPABASE_SERVICE_ROLE_KEY` server-only.
 - Server routes using the service role must derive ownership from validated Telegram identity, not request body fields.
 - Do not use the Supabase service role key as a migration/DDL workaround; schema changes must go through reviewed migration SQL via Dashboard or authenticated Supabase CLI workflow.
+- Service-role table-existence checks are allowed only as local/admin verification and must not print secrets or write data.
 - Never trust client-supplied `profile_id`, `telegram_user_id`, XP amount, rank, or ownership fields.
 - Log notification dispatch safely.
 - Treat body photos and health data as sensitive.

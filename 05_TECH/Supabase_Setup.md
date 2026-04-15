@@ -10,7 +10,7 @@ Draft
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[Architecture]]
@@ -29,6 +29,8 @@ Current workspace setup:
 - Supabase CLI is installed locally at version 2.84.2.
 - The workspace is not currently linked as a Supabase CLI project because `supabase/config.toml` is absent.
 - `supabase projects list` is blocked because no Supabase CLI access token is available in the workspace environment.
+- `npm run verify:supabase:mvp` exists as a local admin verification command for the eight MVP tables.
+- Latest live MVP spine verification returned HTTP 404 for all eight MVP tables on 2026-04-16.
 
 Implementation rules:
 
@@ -67,6 +69,7 @@ Apply migration:
 - Acceptable manual path: review the SQL and run it once in the Supabase Dashboard SQL editor for the development project.
 - After applying, verify table presence and keep direct client access disabled until the RLS/JWT strategy is finalized.
 - Current status: not applied from this workspace. Blocked on Dashboard SQL execution or Supabase CLI authentication/linking.
+- After applying the migration, run `npm run verify:supabase:mvp`. All eight tables must return success before profile lookup/create or data write routes are implemented.
 
 Manual setup still required:
 

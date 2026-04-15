@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[04_Current_State]]
@@ -31,7 +31,7 @@ Wire the foundation runtime into real Telegram and Supabase flows.
 Next tasks:
 
 1. Apply the MVP spine migration through Supabase Dashboard SQL editor, or configure Supabase CLI auth/linking and then run the CLI migration path.
-2. Verify the eight MVP tables exist after migration apply using Dashboard table/SQL verification or an authenticated CLI SQL path.
+2. Run `npm run verify:supabase:mvp` after migration apply and confirm all eight MVP tables return success.
 3. Implement a server route that validates Telegram init data and looks up or creates `profiles` by `telegram_user_id`.
 4. Wire onboarding structure to create `goals` and `user_paths` through the validated server identity path.
 5. Define first real daily quest seed data and XP event write path.
@@ -42,6 +42,7 @@ Next tasks:
 Current blocker:
 
 - This workspace has Supabase CLI 2.84.2, but it is not linked to the Supabase project and has no CLI access token available. Migration apply cannot be completed from Codex until Dashboard SQL is run manually or CLI authentication/linking is configured.
+- A live service-role REST probe on 2026-04-16 returned HTTP 404 for `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
 
 Do not change:
 

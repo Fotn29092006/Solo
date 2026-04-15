@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:supabase:mvp": "node scripts/verify-supabase-mvp-spine.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.2",

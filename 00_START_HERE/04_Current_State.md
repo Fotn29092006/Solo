@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[00_Project_Index]]
@@ -63,10 +63,13 @@ Shared
 - Ignored local `.env.local` contains Supabase URL, anon key, service role key, Telegram Bot token, and Telegram Bot username for development.
 - Supabase URL and anon key were verified against the Supabase Auth settings endpoint.
 - Supabase Auth settings health returned HTTP 200 from this workspace with local development credentials on 2026-04-15.
+- Supabase Auth settings health returned HTTP 200 from this workspace with local development credentials again on 2026-04-16.
 - Supabase CLI is installed locally at version 2.84.2.
 - This workspace does not currently have `supabase/config.toml`, so it is not linked as a Supabase CLI project workspace.
 - Supabase CLI project listing is blocked because no CLI access token is available in the workspace environment.
 - No Supabase MCP SQL/migration resources are exposed to this Codex session.
+- Supabase MVP spine live verification script exists at `scripts/verify-supabase-mvp-spine.mjs` and is exposed as `npm run verify:supabase:mvp`.
+- A live REST probe with the local service role key returned HTTP 404 for all eight MVP tables on 2026-04-16.
 - Supabase MVP spine migration exists at `supabase/migrations/0001_mvp_spine.sql`.
 - The MVP spine currently includes only `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
 - The MVP identity boundary is server-validated Telegram identity mapped to an internal `profiles.id`.
@@ -75,6 +78,8 @@ Shared
 - Live Supabase health passed through local `/api/health/supabase`.
 - The MVP migration has been reviewed and prepared, but has not been applied from this workspace.
 - Applying the MVP migration from this workspace is currently blocked until either Supabase Dashboard SQL is used manually or Supabase CLI auth/linking is configured.
+- Profile creation and data writes remain blocked because the live development database does not expose the MVP spine tables yet.
+- `npm test` passes.
 - `npm run typecheck` passes.
 - `npm run build` passes.
 - Supabase project credentials are not present in tracked files.
