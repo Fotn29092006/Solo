@@ -37,3 +37,10 @@ Shared
 - Rewired the project index and operational instructions around the graph-memory route.
 - Updated local project plugin skills to follow the graph-memory route.
 - Preserved stable Obsidian graph/settings files while keeping workspace state ignored.
+- Created the Next.js App Router runtime foundation with TypeScript and Tailwind CSS.
+- Added modular runtime folders under `src` for app routes, features, components, lib clients, config, and shared types.
+- Added Telegram Mini App base detection, initialization, safe area handling, and Telegram user data read path.
+- Added Supabase browser client setup and `/api/health/supabase` connection test route.
+- Added onboarding structure and Home screen shell placeholders for level, XP, quests, and streaks.
+- Added `.env.example` and the MVP Supabase spine migration with eight tables.
+- Verified `npm run typecheck` and `npm run build`.

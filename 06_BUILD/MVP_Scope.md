@@ -26,8 +26,8 @@ MVP includes:
 - Daily quests.
 - Weekly quests.
 - Workout logging.
-- Nutrition logging.
 - Water logging.
+- Simple nutrition logging.
 - Weekly weigh-in.
 - XP, levels, ranks.
 - Streaks.
@@ -43,3 +43,5 @@ MVP excludes:
 - Advanced computer vision.
 - Fully dynamic body avatar.
 - Ultra-complex nutrition engine.
+- Full language system.
+- Complex analytics.

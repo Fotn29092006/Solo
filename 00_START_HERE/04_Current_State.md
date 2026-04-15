@@ -40,11 +40,22 @@ Shared
 - Empty root file `null` exists and is treated as local scratch/junk, not project source.
 - Practical Codex skills are installed under `C:\Users\Almas\.codex\skills`.
 - Figma/design skills are installed for design work.
-- No application codebase has been created yet.
-- No Next.js project has been scaffolded yet.
-- No Supabase project, migrations, or tracked environment variables are present in this workspace.
+- Application runtime foundation now exists at the repository root.
+- Next.js App Router project is configured with TypeScript and Tailwind CSS.
+- Runtime source lives under `src`, with `src/app`, `src/features`, `src/components`, `src/lib`, `src/config`, and `src/shared/types`.
+- Home screen shell exists at `src/app/page.tsx`.
+- Onboarding structure exists at `src/app/onboarding/page.tsx`.
+- Telegram Mini App base integration exists under `src/features/telegram` and `src/lib/telegram`.
+- Supabase browser client setup exists at `src/lib/supabase/client.ts`.
+- Supabase connection health route exists at `src/app/api/health/supabase/route.ts`.
+- Tracked `.env.example` documents required Telegram and Supabase variables.
+- Supabase MVP spine migration exists at `supabase/migrations/0001_mvp_spine.sql`.
+- The MVP spine currently includes only `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
+- `npm run typecheck` passes.
+- `npm run build` passes.
+- Supabase project credentials are not present in tracked files.
 - Ignored local `.env.local` exists with `TELEGRAM_BOT_TOKEN` for development.
-- Telegram Mini App configuration is not present in this workspace.
+- Telegram Mini App client foundation exists, but BotFather/Mini App launch configuration is not present in this workspace.
 
 Known risks:
 

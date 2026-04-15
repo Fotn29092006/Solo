@@ -23,13 +23,13 @@ Create the project shell and infrastructure plan.
 
 Deliverables:
 
-- App structure.
-- Telegram Mini App basics.
-- Supabase configuration plan.
-- Initial schema draft.
-- Environment variable inventory.
-- Base theme direction.
-- Navigation shell plan.
+- Done: app structure.
+- Done: Telegram Mini App basics.
+- Done: Supabase configuration plan.
+- Done: initial schema draft.
+- Done: environment variable inventory.
+- Done: base theme direction.
+- Done: navigation shell plan.
 
 Acceptance criteria:
 
@@ -37,3 +37,5 @@ Acceptance criteria:
 - Telegram and Supabase secrets are documented but not committed.
 - Initial database ownership/RLS strategy is documented.
 - Mobile-first shell requirements are clear.
+- `npm run typecheck` passes.
+- `npm run build` passes.

@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --background: #080a0d;
+  --foreground: #f4f7fb;
+  --muted: #8f9aa8;
+  --surface: #111418;
+  --surface-strong: #181d23;
+  --line: #2a3139;
+  --cyan: #00d9ff;
+  --green: #7cf29c;
+  --amber: #ffcc66;
+  --rose: #ff5c7a;
+  --tg-safe-area-top: 0px;
+  --tg-safe-area-right: 0px;
+  --tg-safe-area-bottom: 0px;
+  --tg-safe-area-left: 0px;
+  --app-viewport-height: 100dvh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.telegram-safe-area {
+  min-height: var(--app-viewport-height);
+  padding-top: max(16px, var(--tg-safe-area-top));
+  padding-right: max(16px, var(--tg-safe-area-right));
+  padding-bottom: max(16px, var(--tg-safe-area-bottom));
+  padding-left: max(16px, var(--tg-safe-area-left));
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}

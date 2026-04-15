@@ -17,9 +17,9 @@ Shared
 - [[Supabase_Setup]]
 
 ## Content
-Suggested stack:
+Runtime stack:
 
-- Next.js.
+- Next.js App Router.
 - TypeScript.
 - Tailwind CSS.
 - shadcn/ui.
@@ -34,3 +34,23 @@ Suggested stack:
 Architectural rule:
 
 Keep product systems modular. Quest generation, XP, ranks, streaks, notifications, and logs should not become one tangled module.
+
+Current runtime structure:
+
+- `src/app`: Next.js App Router routes, layout, and API route handlers.
+- `src/features`: feature-owned UI and hooks.
+- `src/components`: shared layout and small reusable UI primitives.
+- `src/lib`: platform clients and adapters for Telegram and Supabase.
+- `src/config`: app constants, navigation, and public runtime config.
+- `src/shared/types`: shared TypeScript types for game, Telegram, and database surfaces.
+- `supabase/migrations`: database migrations.
+
+Foundation routes:
+
+- `/`: Home shell with level, XP, daily quest, streak, Telegram runtime, and Supabase status placeholders.
+- `/onboarding`: onboarding structure for welcome, basic profile, goal selection, and path selection.
+- `/api/health/supabase`: server-side Supabase REST reachability check using public anon configuration.
+
+Deferred:
+
+- shadcn/ui, Framer Motion, Zustand, React Hook Form, Zod, and Recharts are not installed yet because the current pass is runtime foundation only.

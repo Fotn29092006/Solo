@@ -19,13 +19,15 @@ Shared
 ## Content
 Sprint goal:
 
-Prepare foundation specs and app scaffold criteria.
+Turn foundation specs into a working Telegram Mini App runtime base.
 
 Tasks:
 
-- Finalize app name.
-- Draft Supabase schema.
-- Draft Telegram integration.
-- Define mobile navigation shell.
-- Define first-pass design tokens.
-- Write acceptance criteria for app scaffold.
+- Completed: scaffold Next.js App Router runtime with TypeScript and Tailwind CSS.
+- Completed: create modular `src` structure for app, features, components, lib, config, and shared types.
+- Completed: add Telegram Mini App base detection, init, safe area handling, and user data read path.
+- Completed: add Supabase client setup and `/api/health/supabase` connection test route.
+- Completed: draft MVP Supabase spine migration with only the eight foundation tables.
+- Next: configure live Supabase env values and verify connection.
+- Next: implement server-side Telegram init data validation.
+- Next: wire onboarding writes for profile, goal, and path.

@@ -17,14 +17,21 @@ Shared
 - [[../05_TECH/Supabase_Setup]]
 
 ## Content
-Main entities:
+Current runtime spine:
 
-- users
 - profiles
 - goals
 - user_paths
-- domain_scores
+- daily_quests
+- quest_completions
 - weekly_checkins
+- xp_events
+- streaks
+
+Future entities from the broader product model:
+
+- users
+- domain_scores
 - body_metrics
 - workouts
 - workout_exercises
@@ -34,14 +41,9 @@ Main entities:
 - learning_logs
 - language_logs
 - habits
-- quests
-- quest_assignments
-- quest_completions
-- xp_events
 - levels
 - ranks
 - achievements
-- streaks
 - notifications
 - system_messages
 

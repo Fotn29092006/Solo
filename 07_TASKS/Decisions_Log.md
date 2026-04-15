@@ -37,3 +37,10 @@ Shared
 - [[../00_START_HERE/07_File_Roles_and_Status]] defines authoritative, operational, reference, prompt, and raw-source files.
 - [[Canonical_Naming]] defines naming rules for future docs, concepts, and graph links.
 - Root instruction files and local project plugin skills should mirror the same graph-memory reading route.
+- Runtime foundation uses a single repository root, not a nested app package, so the app and Obsidian vault stay together.
+- Next.js App Router lives in `src/app`; feature code lives under `src/features`; shared UI lives under `src/components`; platform clients live under `src/lib`; config lives under `src/config`; shared types live under `src/shared/types`.
+- The first runtime pass uses minimal custom UI and Tailwind CSS, with visual polish intentionally deferred.
+- Telegram Mini App integration starts with client-side WebApp detection, safe area handling, init, and user data reading only.
+- Full Telegram Bot behavior and server-side Telegram init data validation are deferred to the next pass.
+- Supabase setup starts with a browser client, a server health route, tracked `.env.example`, and one MVP spine migration.
+- The first Supabase migration is intentionally limited to `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.

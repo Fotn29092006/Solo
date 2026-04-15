@@ -24,18 +24,17 @@ Current milestone: Phase 0 to Phase 1 transition.
 
 Nearest goal:
 
-Lock the foundation specs, then scaffold the app shell.
+Wire the foundation runtime into real Telegram and Supabase flows.
 
 Next tasks:
 
-1. Finalize exact app name and MVP domain boundaries.
-2. Draft Supabase schema and RLS policy plan.
-3. Draft Telegram auth and bot notification architecture.
-4. Rotate the Telegram Bot token before production use.
-5. Define first screen map and mobile navigation shell.
-6. Choose initial design tokens for dark system UI.
-7. Scaffold Next.js app when specs are accepted.
-8. Create first milestone acceptance criteria.
+1. Add Supabase URL and anon key to ignored `.env.local`, then verify `/api/health/supabase` against the live project.
+2. Apply or review `supabase/migrations/0001_mvp_spine.sql` in a Supabase development environment.
+3. Implement server-side Telegram init data validation before trusting Telegram user data.
+4. Wire onboarding structure to create `profiles`, `goals`, and `user_paths`.
+5. Define first real daily quest seed data and XP event write path.
+6. Rotate the Telegram Bot token before production use.
+7. Finalize exact public app name and MVP domain boundaries.
 
 Do not change:
 

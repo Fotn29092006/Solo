@@ -23,6 +23,13 @@ Telegram surfaces:
 - Reminder links.
 - Future command flows if needed.
 
+Current Mini App foundation:
+
+- Telegram WebApp script is loaded in `src/app/layout.tsx`.
+- WebApp detection and initialization live in `src/features/telegram/hooks/useTelegramWebApp.ts`.
+- Safe area and viewport handling live in `src/lib/telegram/web-app.ts`.
+- Telegram runtime/user preview is shown by `src/features/telegram/components/TelegramStatusCard.tsx`.
+
 Bot notification types:
 
 - Daily quests available.
@@ -41,3 +48,10 @@ Security notes:
 - Bot token must never be shipped to the client.
 - Validate Telegram Mini App init data on the server.
 - Store Telegram user ID as identity binding.
+
+Deferred:
+
+- Full Bot command handling.
+- Notification dispatch.
+- Server-side Telegram init data validation.
+- Telegram deep-link routing.
