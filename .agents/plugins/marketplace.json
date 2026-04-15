@@ -1,0 +1,20 @@
+{
+  "name": "solo-system-rpg-local",
+  "interface": {
+    "displayName": "Solo System RPG Local Plugins"
+  },
+  "plugins": [
+    {
+      "name": "solo-system-rpg",
+      "source": {
+        "source": "local",
+        "path": "./plugins/solo-system-rpg"
+      },
+      "policy": {
+        "installation": "INSTALLED_BY_DEFAULT",
+        "authentication": "ON_USE"
+      },
+      "category": "Development"
+    }
+  ]
+}

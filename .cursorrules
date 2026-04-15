@@ -1,0 +1,25 @@
+# Solo System RPG Cursor Rules
+
+Prefer lean-ctx MCP tools when available:
+
+- `ctx_read(path)` over Read / cat / head / tail.
+- `ctx_shell(command)` over raw shell output.
+- `ctx_search(pattern, path)` over grep / rg.
+- `ctx_tree(path, depth)` over ls / find.
+- `ctx_edit(path, old_string, new_string)` when native editing cannot read first.
+
+This workspace is an Obsidian vault and the long-term source of truth for Solo System RPG. Treat `main.md` as raw historical source material only.
+
+Before significant project work, read:
+
+1. `00_START_HERE/00_Project_Index.md`
+2. `00_START_HERE/01_Product_Blueprint.md`
+3. `00_START_HERE/02_Non_Negotiables.md`
+4. `00_START_HERE/03_Roadmap.md`
+5. `00_START_HERE/04_Current_State.md`
+6. `00_START_HERE/05_Next_Steps.md`
+7. `00_START_HERE/06_Graph_Memory_Protocol.md`
+8. `00_START_HERE/07_File_Roles_and_Status.md`
+9. Relevant linked module docs.
+
+After significant work, update the session log, current state, next steps, decisions, open questions, and affected module docs according to `00_START_HERE/06_Graph_Memory_Protocol.md`.

@@ -1,0 +1,46 @@
+{
+  "name": "solo-system-rpg",
+  "version": "0.1.0",
+  "description": "Project-specific Codex plugin for Solo System RPG development.",
+  "author": {
+    "name": "Almas + Codex",
+    "email": "local@solo-system-rpg.invalid",
+    "url": "https://local.invalid/solo-system-rpg"
+  },
+  "homepage": "https://local.invalid/solo-system-rpg/docs",
+  "repository": "https://local.invalid/solo-system-rpg/repository",
+  "license": "UNLICENSED",
+  "keywords": [
+    "telegram-mini-app",
+    "supabase",
+    "obsidian",
+    "rpg-product",
+    "solo-system"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Solo System RPG",
+    "shortDescription": "Project memory, architecture, design, Telegram, and Supabase guidance.",
+    "longDescription": "A local project plugin that teaches Codex how to work on Solo System RPG using the Obsidian vault as source of truth.",
+    "developerName": "Almas + Codex",
+    "category": "Development",
+    "capabilities": [
+      "Project Memory",
+      "Product Architecture",
+      "Frontend",
+      "Design",
+      "Telegram",
+      "Supabase",
+      "QA"
+    ],
+    "websiteURL": "https://local.invalid/solo-system-rpg",
+    "privacyPolicyURL": "https://local.invalid/privacy",
+    "termsOfServiceURL": "https://local.invalid/terms",
+    "defaultPrompt": [
+      "Read the Solo System vault and prepare the next build task.",
+      "Design a mobile Telegram Mini App screen from the vault rules.",
+      "Plan Supabase schema and RLS for the current milestone."
+    ],
+    "brandColor": "#27E0FF"
+  }
+}
