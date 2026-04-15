@@ -22,6 +22,7 @@ Runtime stack:
 - Next.js App Router.
 - TypeScript.
 - Tailwind CSS.
+- Vitest for TypeScript unit tests.
 - shadcn/ui.
 - Framer Motion.
 - Supabase and Postgres.
@@ -60,6 +61,10 @@ Trust boundary:
 - `profiles.id` is the internal app profile identity.
 - Server routes must derive `profile_id` from validated Telegram identity.
 - Direct client writes to user-owned Supabase tables are deferred until a Supabase Auth/JWT and RLS strategy exists.
+
+Test coverage:
+
+- Telegram Mini App init-data validation has unit coverage for valid signatures, tampering, missing hash, stale/future auth dates, missing bot token, malformed user JSON, and bot users.
 
 Deferred:
 

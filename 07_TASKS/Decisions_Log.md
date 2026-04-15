@@ -71,3 +71,9 @@ Shared
 - Role: Architect.
 - Reviewer: DB, Backend, QA.
 - Follow-up: Keep MVP data writes on server routes that derive `profile_id` from validated Telegram identity.
+- Decision: Use Vitest for TypeScript unit tests in the Next.js runtime.
+- Reason: Telegram init-data validation is a security boundary and needs repeatable tests before profile creation or write routes depend on it.
+- Scope: `package.json`, `vitest.config.ts`, `src/lib/telegram/validate-init-data.test.ts`, and [[../05_TECH/Architecture]].
+- Role: QA.
+- Reviewer: Telegram, Backend.
+- Follow-up: Keep auth/trust-boundary code covered before wiring persistence.

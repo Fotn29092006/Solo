@@ -55,6 +55,8 @@ Shared
 - Telegram Mini App base integration exists under `src/features/telegram` and `src/lib/telegram`.
 - Server-side Telegram Mini App init-data validation scaffold exists at `src/lib/telegram/server.ts`.
 - Telegram auth validation route exists at `src/app/api/auth/telegram/route.ts`.
+- Telegram init-data validation unit tests exist at `src/lib/telegram/validate-init-data.test.ts`.
+- Vitest is configured as the TypeScript unit test runner.
 - Supabase browser client setup exists at `src/lib/supabase/client.ts`.
 - Supabase connection health route exists at `src/app/api/health/supabase/route.ts`.
 - Tracked `.env.example` documents required Telegram and Supabase variables.
@@ -79,4 +81,4 @@ Known risks:
 - Telegram reminders can become spammy if triggers are not controlled.
 - Too many logging surfaces can create daily friction.
 - The current Telegram Bot token and Supabase service role key were shared in chat and should be rotated before production use.
-- Automated tests for Telegram init-data validation do not exist yet and are required before profile creation or data writes depend on that route.
+- Profile creation and data writes are still blocked until the Supabase migration is applied and verified.

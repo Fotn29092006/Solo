@@ -65,3 +65,6 @@ Shared
 - Recorded that Telegram validation tests are required before using the validation route for profile creation or data writes.
 - Split the current local work into clean publish commits and pushed `main` to GitHub.
 - Published commits: `793e32e` runtime env status, `2363bb3` mini-team workflow controls, and `4702dfe` Telegram trust-boundary foundation.
+- Added Vitest as the TypeScript unit test runner.
+- Added Telegram init-data validation tests for valid signatures, tampering, missing hash, stale/future auth dates, missing bot token, malformed user JSON, and bot users.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`.

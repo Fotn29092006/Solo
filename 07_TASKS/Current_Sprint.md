@@ -38,7 +38,7 @@ Tasks:
 - Completed: add server-side Telegram init-data validation scaffold and `/api/auth/telegram` validation route.
 - Completed: revise the MVP spine migration around server-validated Telegram identity and internal profile IDs.
 - Completed: verify live Supabase health through the local health route.
+- Completed: add automated tests for Telegram init-data validation.
 - Next: apply the MVP spine migration through Supabase Dashboard or a linked Supabase CLI workflow.
-- Next: add automated tests for Telegram init-data validation.
 - Next: implement profile lookup/create by validated Telegram identity.
 - Next: wire onboarding writes for goal and path through the validated server identity path.
