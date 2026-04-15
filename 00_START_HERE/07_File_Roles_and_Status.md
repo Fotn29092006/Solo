@@ -18,6 +18,8 @@ Shared
 - [[04_Current_State]]
 - [[05_Next_Steps]]
 - [[../07_TASKS/Canonical_Naming]]
+- [[../07_TASKS/Agent_Workstreams]]
+- [[../07_TASKS/Parallel_Workstreams]]
 - [[../07_TASKS/Decisions_Log]]
 
 ## Content
@@ -94,6 +96,8 @@ Build and operations:
 | [[../06_BUILD/MVP_Scope]] | Authority | Draft | MVP inclusion and exclusion boundaries. |
 | [[../06_BUILD/Milestone_01_Foundation]] | Operational | Draft | Foundation milestone acceptance criteria. |
 | [[../07_TASKS/Backlog]] | Operational | Active | Future work queue. |
+| [[../07_TASKS/Agent_Workstreams]] | Operational | Active | Enforces role, scope, owned files, reviewer, and status before significant work. |
+| [[../07_TASKS/Parallel_Workstreams]] | Operational | Active | Controls Level 3 parallel workstream ownership, dependencies, merge order, and integration review. |
 | [[../07_TASKS/Current_Sprint]] | Operational | Active | Current sprint focus. |
 | [[../07_TASKS/Decisions_Log]] | Operational | Active | Durable decisions; overrides older plans when explicit. |
 | [[../07_TASKS/Open_Questions]] | Operational | Active | Unresolved planning and product questions. |
@@ -107,6 +111,7 @@ Prompts and references:
 | --- | --- | --- | --- |
 | [[../08_PROMPTS/Codex_Master_Instruction]] | Prompt | Active | Default Codex behavior for project sessions. |
 | [[../08_PROMPTS/Session_Brief_Template]] | Prompt | Active | Template for scoped sessions. |
+| [[../08_PROMPTS/Orchestrator_Agent_Prompt]] | Prompt | Active | Template for mini-team orchestration, Level 3 stream splitting, and merge-control sessions. |
 | `08_PROMPTS/*_Agent_Prompt.md` | Prompt | Active | Focused role prompts for agents. |
 | [[../09_REFERENCE/Inspiration]] | Reference | Draft | Product feel references only. |
 | [[../09_REFERENCE/Telegram_Mini_App_Constraints]] | Reference | Draft | Telegram constraints to verify against official docs. |

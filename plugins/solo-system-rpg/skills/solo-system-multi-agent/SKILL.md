@@ -27,6 +27,7 @@ Multiple agents are a development workflow tool. The production app must not dep
 - Each session starts from `08_PROMPTS/Session_Brief_Template.md`.
 - Each session follows `00_START_HERE/06_Graph_Memory_Protocol.md`.
 - Each session uses `00_START_HERE/07_File_Roles_and_Status.md` to resolve authority.
+- Each session must have a row in `07_TASKS/Agent_Workstreams.md` before edits begin.
 - Each session records outcome in `10_LOGS/Session_Log.md`.
 - Shared decisions go to `07_TASKS/Decisions_Log.md`.
 - Open issues go to `07_TASKS/Open_Questions.md` or `07_TASKS/Bugs.md`.

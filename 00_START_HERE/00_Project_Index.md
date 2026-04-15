@@ -20,9 +20,12 @@ Shared
 - [[05_Next_Steps]]
 - [[06_Graph_Memory_Protocol]]
 - [[07_File_Roles_and_Status]]
+- [[../07_TASKS/Agent_Workstreams]]
+- [[../07_TASKS/Parallel_Workstreams]]
 - [[../07_TASKS/Decisions_Log]]
 - [[../07_TASKS/Open_Questions]]
 - [[../10_LOGS/Session_Log]]
+- [[../08_PROMPTS/Orchestrator_Agent_Prompt]]
 
 ## Content
 Solo System RPG is a Telegram Mini App with Telegram Bot notifications that turns self-development into an earned RPG progression system.
@@ -40,8 +43,10 @@ Required reading order for significant project work:
 7. [[05_Next_Steps]]
 8. [[06_Graph_Memory_Protocol]]
 9. [[07_File_Roles_and_Status]]
-10. Relevant module docs for the task.
-11. [[../07_TASKS/Current_Sprint]], [[../07_TASKS/Open_Questions]], and [[../07_TASKS/Decisions_Log]] when planning or resolving ambiguity.
+10. [[../07_TASKS/Agent_Workstreams]]
+11. [[../07_TASKS/Parallel_Workstreams]] for Level 3 work.
+12. Relevant module docs for the task.
+13. [[../07_TASKS/Current_Sprint]], [[../07_TASKS/Open_Questions]], and [[../07_TASKS/Decisions_Log]] when planning or resolving ambiguity.
 
 Core module docs:
 
@@ -51,8 +56,8 @@ Core module docs:
 - Data: [[../04_DATA/Data_Model_Overview]], [[../04_DATA/Database_Schema]]
 - Tech: [[../05_TECH/Architecture]], [[../05_TECH/Telegram_Integration]], [[../05_TECH/Supabase_Setup]]
 - Build: [[../06_BUILD/MVP_Scope]], [[../06_BUILD/Milestone_01_Foundation]]
-- Operations: [[04_Current_State]], [[05_Next_Steps]], [[../07_TASKS/Current_Sprint]], [[../07_TASKS/Backlog]], [[../07_TASKS/Decisions_Log]], [[../07_TASKS/Open_Questions]], [[../07_TASKS/Bugs]], [[../10_LOGS/Session_Log]]
-- Prompts: [[../08_PROMPTS/Codex_Master_Instruction]], [[../08_PROMPTS/Session_Brief_Template]], `plugins/solo-system-rpg`
+- Operations: [[04_Current_State]], [[05_Next_Steps]], [[../07_TASKS/Agent_Workstreams]], [[../07_TASKS/Parallel_Workstreams]], [[../07_TASKS/Current_Sprint]], [[../07_TASKS/Backlog]], [[../07_TASKS/Decisions_Log]], [[../07_TASKS/Open_Questions]], [[../07_TASKS/Bugs]], [[../10_LOGS/Session_Log]]
+- Prompts: [[../08_PROMPTS/Codex_Master_Instruction]], [[../08_PROMPTS/Session_Brief_Template]], [[../08_PROMPTS/Orchestrator_Agent_Prompt]], `plugins/solo-system-rpg`
 - Memory control: [[06_Graph_Memory_Protocol]], [[07_File_Roles_and_Status]], [[../07_TASKS/Canonical_Naming]]
 - Reference: [[../09_REFERENCE/Inspiration]], [[../09_REFERENCE/Telegram_Mini_App_Constraints]]
 

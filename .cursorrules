@@ -20,6 +20,9 @@ Before significant project work, read:
 6. `00_START_HERE/05_Next_Steps.md`
 7. `00_START_HERE/06_Graph_Memory_Protocol.md`
 8. `00_START_HERE/07_File_Roles_and_Status.md`
-9. Relevant linked module docs.
+9. `07_TASKS/Agent_Workstreams.md`
+10. Relevant linked module docs.
 
-After significant work, update the session log, current state, next steps, decisions, open questions, and affected module docs according to `00_START_HERE/06_Graph_Memory_Protocol.md`.
+Before significant work, state the pre-task gate: reading order, active task, primary role, reviewer role, scope, allowed files, forbidden files, and required post-task docs.
+
+After significant work, update the session log, current state, next steps, decisions, open questions, agent workstream status, and affected module docs according to `00_START_HERE/06_Graph_Memory_Protocol.md`.
