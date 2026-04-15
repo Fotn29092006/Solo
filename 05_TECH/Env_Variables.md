@@ -37,6 +37,18 @@ Workspace files:
 Current runtime usage:
 
 - `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are required for the Supabase health route and browser client.
+- `TELEGRAM_BOT_TOKEN` is required server-side for Telegram Mini App init-data validation.
 - `TELEGRAM_BOT_TOKEN` is present locally for development but must be rotated before production because it was shared in chat.
 - `SUPABASE_SERVICE_ROLE_KEY` must not be used in client-side modules.
+- `SUPABASE_SERVICE_ROLE_KEY` is reserved for server-side profile/data operations after Telegram identity validation.
 - `SUPABASE_SERVICE_ROLE_KEY` must be rotated before production because it was shared in chat.
+- `TELEGRAM_MINI_APP_URL` is currently empty locally because no public Mini App launch URL is configured yet.
+
+Verified local status:
+
+- Supabase URL is present in ignored `.env.local`.
+- Supabase anon key is present in ignored `.env.local`.
+- Supabase service role key is present in ignored `.env.local`.
+- Telegram Bot token is present in ignored `.env.local`.
+- Telegram Bot username is present in ignored `.env.local`.
+- Telegram Mini App URL is not set yet.

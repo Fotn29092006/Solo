@@ -19,7 +19,7 @@ Shared
 ## Content
 Current runtime spine:
 
-- profiles
+- profiles: internal profile UUID plus unique Telegram user ID binding
 - goals
 - user_paths
 - daily_quests
@@ -27,6 +27,12 @@ Current runtime spine:
 - weekly_checkins
 - xp_events
 - streaks
+
+Current identity rule:
+
+- Telegram is the external identity source for the MVP.
+- Validated Telegram init data is the only trusted source for `telegram_user_id`.
+- Server routes derive app `profile_id` from `telegram_user_id`; the client must not choose profile ownership.
 
 Future entities from the broader product model:
 

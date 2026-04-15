@@ -58,6 +58,40 @@ export interface TelegramWebApp {
   offEvent?: (eventType: "viewportChanged" | "themeChanged", callback: () => void) => void;
 }
 
+export type TelegramInitDataValidationStatus =
+  | "valid"
+  | "missing_bot_token"
+  | "missing_init_data"
+  | "invalid_init_data"
+  | "missing_hash"
+  | "invalid_hash"
+  | "missing_auth_date"
+  | "stale_auth_date"
+  | "invalid_user";
+
+export interface TelegramValidatedUser {
+  id: number;
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+  languageCode?: string;
+  isPremium?: boolean;
+  photoUrl?: string;
+}
+
+export interface TelegramIdentityHint {
+  provider: "telegram";
+  telegramUserId: string;
+}
+
+export interface TelegramInitDataValidationResult {
+  ok: boolean;
+  status: TelegramInitDataValidationStatus;
+  user: TelegramValidatedUser | null;
+  identity: TelegramIdentityHint | null;
+  authDate: string | null;
+}
+
 declare global {
   interface Window {
     Telegram?: {

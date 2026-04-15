@@ -18,6 +18,7 @@ Shared
 - [[07_File_Roles_and_Status]]
 - [[05_Next_Steps]]
 - [[../07_TASKS/Decisions_Log]]
+- [[../07_TASKS/Parallel_Workstreams]]
 - [[../10_LOGS/Session_Log]]
 
 ## Content
@@ -30,11 +31,16 @@ Shared
 - Graph-memory protocol exists at [[06_Graph_Memory_Protocol]].
 - File authority and role map exists at [[07_File_Roles_and_Status]].
 - Canonical naming rules exist at [[../07_TASKS/Canonical_Naming]].
+- Strict pre-task, role, memory-update, decision, and failure-detection enforcement is documented in [[06_Graph_Memory_Protocol]].
+- Agent workstream enforcement exists at [[../07_TASKS/Agent_Workstreams]].
+- Mini-team execution mode is documented in [[06_Graph_Memory_Protocol]] for significant Level 2 and Level 3 work.
+- Parallel workstream control exists at [[../07_TASKS/Parallel_Workstreams]] for Level 3 large or cross-domain tasks.
+- Orchestrator session guidance exists at [[../08_PROMPTS/Orchestrator_Agent_Prompt]].
 - [[00_Project_Index]] is the vault entry point for future Codex sessions.
 - Local Codex project plugin exists at `plugins/solo-system-rpg`.
 - Local Codex project plugin skills mirror the graph-memory startup route.
 - Local marketplace exists at `.agents/plugins/marketplace.json`.
-- `AGENTS.md` contains the graph-memory startup route for future Codex sessions.
+- `AGENTS.md` contains the graph-memory startup route and pre-task enforcement gate for future Codex sessions.
 - Foundation files intended for version control include vault Markdown, `main.md`, root agent guidance files, stable `.obsidian` settings, `.agents/plugins/marketplace.json`, and the local project plugin manifest/skills.
 - Obsidian workspace state remains local and ignored.
 - Empty root file `null` exists and is treated as local scratch/junk, not project source.
@@ -46,6 +52,8 @@ Shared
 - Home screen shell exists at `src/app/page.tsx`.
 - Onboarding structure exists at `src/app/onboarding/page.tsx`.
 - Telegram Mini App base integration exists under `src/features/telegram` and `src/lib/telegram`.
+- Server-side Telegram Mini App init-data validation scaffold exists at `src/lib/telegram/server.ts`.
+- Telegram auth validation route exists at `src/app/api/auth/telegram/route.ts`.
 - Supabase browser client setup exists at `src/lib/supabase/client.ts`.
 - Supabase connection health route exists at `src/app/api/health/supabase/route.ts`.
 - Tracked `.env.example` documents required Telegram and Supabase variables.
@@ -53,6 +61,11 @@ Shared
 - Supabase URL and anon key were verified against the Supabase Auth settings endpoint.
 - Supabase MVP spine migration exists at `supabase/migrations/0001_mvp_spine.sql`.
 - The MVP spine currently includes only `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
+- The MVP identity boundary is server-validated Telegram identity mapped to an internal `profiles.id`.
+- `profiles.telegram_user_id` is the unique external Telegram identity binding.
+- Direct client writes to user-owned Supabase tables are deferred until a Supabase Auth/JWT and RLS policy strategy exists.
+- Live Supabase health passed through local `/api/health/supabase`.
+- The MVP migration has been reviewed and prepared, but has not been applied from this workspace.
 - `npm run typecheck` passes.
 - `npm run build` passes.
 - Supabase project credentials are not present in tracked files.
@@ -65,3 +78,4 @@ Known risks:
 - Telegram reminders can become spammy if triggers are not controlled.
 - Too many logging surfaces can create daily friction.
 - The current Telegram Bot token and Supabase service role key were shared in chat and should be rotated before production use.
+- Automated tests for Telegram init-data validation do not exist yet and are required before profile creation or data writes depend on that route.

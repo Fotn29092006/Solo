@@ -22,7 +22,7 @@ export interface Database {
           updated_at: string;
         };
         Insert: {
-          id: string;
+          id?: string;
           telegram_user_id: number;
           telegram_username?: string | null;
           display_name?: string | null;

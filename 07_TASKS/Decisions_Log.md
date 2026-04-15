@@ -18,6 +18,8 @@ Shared
 - [[../00_START_HERE/06_Graph_Memory_Protocol]]
 - [[../00_START_HERE/07_File_Roles_and_Status]]
 - [[Canonical_Naming]]
+- [[Agent_Workstreams]]
+- [[Parallel_Workstreams]]
 
 ## Content
 2026-04-15:
@@ -45,3 +47,27 @@ Shared
 - Supabase setup starts with a browser client, a server health route, tracked `.env.example`, and one MVP spine migration.
 - The first Supabase migration is intentionally limited to `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
 - Supabase health checks use `auth/v1/settings` with the anon key because the REST table surface depends on schema/table state.
+- Decision: Future significant tasks must pass a strict pre-task gate with reading confirmation, active task, primary role, reviewer role, scope boundaries, allowed files, forbidden files, and required post-task docs.
+- Reason: Previous work showed that role prompts and graph-memory rules were conceptual unless enforced before edits and checked after edits.
+- Scope: [[../00_START_HERE/06_Graph_Memory_Protocol]], [[../07_TASKS/Agent_Workstreams]], root instruction files, and session brief template.
+- Role: Architect.
+- Reviewer: QA.
+- Follow-up: Use [[Agent_Workstreams]] before the next implementation task.
+- Decision: Future significant Codex sessions must use task-level classification, a lightweight mini-team pass, and merge-controlled parallel workstreams for Level 3 tasks.
+- Reason: The project needs real execution architecture for multi-role work without letting parallel changes conflict or weaken the Obsidian vault as source of truth.
+- Scope: [[../00_START_HERE/06_Graph_Memory_Protocol]], [[Agent_Workstreams]], [[Parallel_Workstreams]], [[../08_PROMPTS/Session_Brief_Template]], [[../08_PROMPTS/Orchestrator_Agent_Prompt]], `AGENTS.md`, and `CLAUDE.md`.
+- Role: Architect.
+- Reviewer: QA.
+- Follow-up: Use Level 2 or Level 3 classification before the next Supabase or Telegram trust-boundary implementation task.
+- Decision: MVP identity binding uses server-validated Telegram init data mapped to an internal `profiles.id`; `profiles.telegram_user_id` is the unique external identity binding.
+- Reason: Telegram Mini App init data does not create a Supabase Auth session by itself, so `auth.uid()` cannot safely own MVP profile rows yet.
+- Scope: `supabase/migrations/0001_mvp_spine.sql`, [[../04_DATA/Database_Schema]], [[../05_TECH/Supabase_Setup]], [[../05_TECH/Telegram_Integration]], [[../05_TECH/Security]], and [[../05_TECH/Architecture]].
+- Role: Architect.
+- Reviewer: DB, Telegram, QA.
+- Follow-up: Apply the migration only after confirming the development target is clean, then implement profile lookup/create through the validated Telegram server route.
+- Decision: Direct client access to user-owned Supabase tables remains deferred until a Supabase Auth/JWT and RLS policy strategy exists.
+- Reason: Client-side RLS policies based on `auth.uid()` would fail for Telegram-only users and could push the app toward trusting client-supplied ownership fields.
+- Scope: `supabase/migrations/0001_mvp_spine.sql`, [[../05_TECH/Security]], [[../05_TECH/Supabase_Setup]], and [[../04_DATA/Database_Schema]].
+- Role: Architect.
+- Reviewer: DB, Backend, QA.
+- Follow-up: Keep MVP data writes on server routes that derive `profile_id` from validated Telegram identity.

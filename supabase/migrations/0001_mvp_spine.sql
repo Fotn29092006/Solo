@@ -1,8 +1,8 @@
 create extension if not exists pgcrypto;
 
 create table public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
-  telegram_user_id bigint not null unique,
+  id uuid primary key default gen_random_uuid(),
+  telegram_user_id bigint not null unique check (telegram_user_id > 0),
   telegram_username text,
   display_name text,
   level integer not null default 1 check (level >= 1),
@@ -114,32 +114,7 @@ alter table public.weekly_checkins enable row level security;
 alter table public.xp_events enable row level security;
 alter table public.streaks enable row level security;
 
-create policy profiles_select_own on public.profiles
-  for select using (id = auth.uid());
-
-create policy profiles_insert_own on public.profiles
-  for insert with check (id = auth.uid());
-
-create policy profiles_update_own on public.profiles
-  for update using (id = auth.uid()) with check (id = auth.uid());
-
-create policy goals_crud_own on public.goals
-  for all using (profile_id = auth.uid()) with check (profile_id = auth.uid());
-
-create policy user_paths_crud_own on public.user_paths
-  for all using (profile_id = auth.uid()) with check (profile_id = auth.uid());
-
-create policy daily_quests_crud_own on public.daily_quests
-  for all using (profile_id = auth.uid()) with check (profile_id = auth.uid());
-
-create policy quest_completions_crud_own on public.quest_completions
-  for all using (profile_id = auth.uid()) with check (profile_id = auth.uid());
-
-create policy weekly_checkins_crud_own on public.weekly_checkins
-  for all using (profile_id = auth.uid()) with check (profile_id = auth.uid());
-
-create policy xp_events_crud_own on public.xp_events
-  for all using (profile_id = auth.uid()) with check (profile_id = auth.uid());
-
-create policy streaks_crud_own on public.streaks
-  for all using (profile_id = auth.uid()) with check (profile_id = auth.uid());
+-- RLS is enabled without anon/client policies in the MVP trust-boundary phase.
+-- Server routes must validate Telegram init data, derive the profile from
+-- profiles.telegram_user_id, and use privileged Supabase access without
+-- accepting profile_id from the client.
