@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[Agent_Workstreams]]
@@ -42,6 +42,20 @@ Workstream table:
 | TB-DB-01 | DB | Review and prepare MVP spine migration and live apply path | Inspect migration, RLS shape, identity model, and whether local credentials can apply or verify it | `supabase/migrations/0001_mvp_spine.sql`, `src/shared/types/database.ts`, `04_DATA/Database_Schema.md`, `05_TECH/Supabase_Setup.md`, `supabase/README.md` | unrelated `src/**`, `.env*`, product scope docs | None | QA, Backend | 1 | Merged 2026-04-15 |
 | TB-TG-01 | Telegram | Implement server-side Telegram init-data validation scaffold | Add server-only validation utilities and a minimal auth validation route | `src/lib/telegram/server.ts`, `src/app/api/auth/telegram/route.ts`, `src/shared/types/telegram.ts` | `supabase/**`, `.env*`, unrelated UI files | None | QA, Backend | 2 | Merged 2026-04-15 |
 | TB-QA-01 | QA | Verify trust-boundary pass | Run type/build checks, health checks, and review changed files for boundary leaks | `07_TASKS/Bugs.md` if defects are found | `src/**`, `supabase/**`, `.env*` unless explicitly assigned | TB-DB-01, TB-TG-01 | Architect | 3 | Merged 2026-04-15 |
+| P1-DB-GATE | DB | Verify live MVP spine after Dashboard SQL apply | Run verifier and record DB readiness | `scripts/verify-supabase-mvp-spine.mjs`, `04_DATA/Database_Schema.md`, `05_TECH/Supabase_Setup.md`, `supabase/README.md` | `.env*`, `.obsidian/graph.json`, unrelated `src/**`, product scope docs, schema expansion | Manual Dashboard SQL apply | QA, Backend | 1 | Blocked 2026-04-16: all eight tables return 404 |
+| P1-BACKEND-IDENTITY | Backend + Telegram | Turn `/api/auth/telegram` into profile lookup/create route | Server-only identity route and profile helper | `src/app/api/auth/telegram/route.ts`, `src/lib/supabase/server.ts`, `src/lib/telegram/profile-identity.ts`, `src/shared/types/telegram.ts`, `src/lib/telegram/*.test.ts` | `.env*`, `.obsidian/graph.json`, `supabase/migrations/**`, UI/onboarding persistence files, quest/XP/bot notification logic | P1-DB-GATE passing | DB, Telegram, QA | 2 | Blocked: waiting for P1-DB-GATE |
+| P1-BACKEND-ONBOARDING | Backend | Add onboarding persistence route using derived `profile_id` | Server route and shared request/response types | `src/app/api/onboarding/route.ts`, `src/shared/types/game.ts` | `.env*`, `.obsidian/graph.json`, `supabase/migrations/**`, UI components, schema expansion, quest/XP/bot notification logic | P1-BACKEND-IDENTITY | DB, QA | 3 | Blocked: waiting for P1-DB-GATE |
+| P1-FRONTEND-ONBOARDING | Frontend | Wire onboarding shell to submit profile, goal, and path through server route | Existing onboarding UI only | `src/features/onboarding/components/OnboardingFlow.tsx`, `src/app/onboarding/page.tsx` | `.env*`, `.obsidian/graph.json`, API route internals, DB migration files, visual redesign, product scope docs | API contract frozen by backend streams | Backend, Design, QA | 4 | Blocked: waiting for P1-DB-GATE |
+| P1-FRONTEND-HOME | Frontend | Add profile-aware home loading/state shell without quest generation | Existing home UI and Telegram handoff if needed | `src/features/home/components/HomeScreen.tsx`, `src/app/page.tsx`, `src/features/telegram/**` | `.env*`, `.obsidian/graph.json`, DB files, onboarding persistence internals, UI polish expansion, quest generation | P1-BACKEND-IDENTITY | Backend, Telegram, QA | 5 | Blocked: waiting for P1-DB-GATE |
+| P1-QA | QA | Validate integrated auth/onboarding path and regression suite | Test files and bug records only | `src/**/*.test.ts`, `07_TASKS/Bugs.md` | `.env*`, `.obsidian/graph.json`, product scope changes, unrelated app code | Streams in Review | Architect | 6 | Blocked: waiting for implementation streams |
+| P1-INTEGRATION | Architect | Merge, resolve conflicts, update vault, commit and push | Operational vault docs and final staged integration | `00_START_HERE/04_Current_State.md`, `00_START_HERE/05_Next_Steps.md`, `07_TASKS/Agent_Workstreams.md`, `07_TASKS/Parallel_Workstreams.md`, `07_TASKS/Current_Sprint.md`, `07_TASKS/Decisions_Log.md`, `10_LOGS/Session_Log.md` | `.env*`, `.obsidian/graph.json`, unrelated product docs | All streams Review or Blocked | QA plus affected role reviewers | 7 | Blocked: waiting for P1-DB-GATE |
+
+Approved overlap for P1:
+
+- `src/shared/types/*` may be touched by Backend and Frontend only through the frozen API contract; Architect resolves final shape during integration.
+- `src/lib/supabase/server.ts` is Backend-owned; other streams may consume it but must not redefine it.
+- Vault operational docs are updated during final integration, not independently by every stream.
+- Implementation streams remain blocked until P1-DB-GATE passes.
 
 Allowed split patterns:
 

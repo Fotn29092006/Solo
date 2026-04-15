@@ -43,6 +43,7 @@ Current blocker:
 
 - This workspace has Supabase CLI 2.84.2, but it is not linked to the Supabase project and has no CLI access token available. Migration apply cannot be completed from Codex until Dashboard SQL is run manually or CLI authentication/linking is configured.
 - A live service-role REST probe on 2026-04-16 returned HTTP 404 for `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
+- The Level 3 parallel workstreams for Telegram identity and onboarding are recorded in `07_TASKS/Parallel_Workstreams.md`, but all implementation streams are blocked until `npm run verify:supabase:mvp` passes.
 
 Do not change:
 

@@ -87,3 +87,8 @@ Shared
 - Confirmed `npm run verify:supabase:mvp` runs and currently fails with HTTP 404 for all eight MVP tables, as expected before migration apply.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`.
 - Kept profile creation and data write implementation blocked until the migration is applied and verification passes.
+- Started the Level 3 Architect orchestration requested by the user for Telegram identity and onboarding connection.
+- Closed completed planning sub-agents to free thread capacity.
+- Re-ran the DB gate; `npm run verify:supabase:mvp` still returned HTTP 404 for all eight MVP tables.
+- Recorded the Level 3 workstream map in `Parallel_Workstreams.md` with downstream implementation streams blocked behind P1-DB-GATE.
+- Recorded that the current tool environment cannot run 10-15 agents at once; it enforces a hard active-agent thread limit, so future parallel work must run in waves after the DB gate passes.

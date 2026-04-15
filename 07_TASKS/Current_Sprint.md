@@ -40,7 +40,9 @@ Tasks:
 - Completed: verify live Supabase health through the local health route.
 - Completed: add automated tests for Telegram init-data validation.
 - Completed: add `npm run verify:supabase:mvp` to verify the eight MVP tables after migration apply.
+- Completed: record the Level 3 parallel workstream map for Telegram identity and onboarding connection.
 - Blocked: live MVP table verification currently returns HTTP 404 for all eight tables.
 - Blocked: apply the MVP spine migration through Supabase Dashboard or a linked Supabase CLI workflow. The local CLI exists, but the workspace has no CLI access token/link.
+- Blocked: backend, frontend, QA, and integration implementation streams for profile/onboarding persistence are waiting for the DB gate to pass.
 - Next: implement profile lookup/create by validated Telegram identity.
 - Next: wire onboarding writes for goal and path through the validated server identity path.

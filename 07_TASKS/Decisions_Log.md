@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-16
 
 ## Related Files
 - [[Open_Questions]]
@@ -83,3 +83,18 @@ Shared
 - Role: DB.
 - Reviewer: QA, Backend.
 - Follow-up: Apply `supabase/migrations/0001_mvp_spine.sql` only after Dashboard SQL access or Supabase CLI auth/linking is available.
+
+2026-04-16:
+
+- Decision: Level 3 profile/onboarding implementation streams remain blocked until `npm run verify:supabase:mvp` passes.
+- Reason: The accepted plan requires the DB gate first, and the live project still returns HTTP 404 for all eight MVP tables.
+- Scope: [[Parallel_Workstreams]], [[Agent_Workstreams]], [[../00_START_HERE/05_Next_Steps]], and profile/onboarding implementation work.
+- Role: Architect.
+- Reviewer: DB, Backend, QA.
+- Follow-up: Apply the MVP migration through Supabase Dashboard SQL Editor, rerun the verifier, then start the downstream streams.
+- Decision: Temporary internal MVP onboarding keys are allowed for the next persistence pass.
+- Reason: Goal/path persistence needs stable internal values before final public naming is decided.
+- Scope: future onboarding route and onboarding UI work.
+- Role: Product/Analyst.
+- Reviewer: Architect, Backend, QA.
+- Follow-up: Use `fat_loss`, `muscle_gain`, `recomposition`, `discipline`, `learning` for `goalType`; use `warrior`, `discipline`, `scholar`, `polyglot`, `rebuild`, `aesthetic`, `balance` for `pathKey`.

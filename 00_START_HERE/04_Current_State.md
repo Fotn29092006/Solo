@@ -70,6 +70,7 @@ Shared
 - No Supabase MCP SQL/migration resources are exposed to this Codex session.
 - Supabase MVP spine live verification script exists at `scripts/verify-supabase-mvp-spine.mjs` and is exposed as `npm run verify:supabase:mvp`.
 - A live REST probe with the local service role key returned HTTP 404 for all eight MVP tables on 2026-04-16.
+- The Level 3 Telegram identity and onboarding connection plan has been recorded, but implementation streams are blocked because `npm run verify:supabase:mvp` still returns HTTP 404 for all eight MVP tables.
 - Supabase MVP spine migration exists at `supabase/migrations/0001_mvp_spine.sql`.
 - The MVP spine currently includes only `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
 - The MVP identity boundary is server-validated Telegram identity mapped to an internal `profiles.id`.
@@ -79,6 +80,7 @@ Shared
 - The MVP migration has been reviewed and prepared, but has not been applied from this workspace.
 - Applying the MVP migration from this workspace is currently blocked until either Supabase Dashboard SQL is used manually or Supabase CLI auth/linking is configured.
 - Profile creation and data writes remain blocked because the live development database does not expose the MVP spine tables yet.
+- Backend, frontend, QA, and integration streams for profile/onboarding persistence must not start until the Supabase MVP spine verification passes.
 - `npm test` passes.
 - `npm run typecheck` passes.
 - `npm run build` passes.
