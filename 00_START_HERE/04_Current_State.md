@@ -24,6 +24,7 @@ Shared
 ## Content
 - Workspace root: `C:\Projects\system`.
 - Git repository has been initialized at the workspace root.
+- GitHub remote `origin/main` has received the runtime env status, mini-team workflow controls, and Telegram trust-boundary foundation commits.
 - Repository `.gitignore` exists for secrets, dependency folders, build outputs, caches, logs, local editor state, Obsidian workspace state, Supabase local runtime state, and agent runtime state.
 - Repository `.gitattributes` exists to normalize text files to LF for cross-platform and multi-agent work.
 - Raw product blueprint exists in `main.md`.

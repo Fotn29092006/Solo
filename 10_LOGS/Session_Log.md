@@ -63,3 +63,5 @@ Shared
 - Documented that server routes must derive `profile_id` from validated Telegram identity and must not trust client-supplied ownership fields.
 - Verified `npm run typecheck`, `npm run build`, `git diff --check`, local Supabase health, and the negative Telegram auth route response.
 - Recorded that Telegram validation tests are required before using the validation route for profile creation or data writes.
+- Split the current local work into clean publish commits and pushed `main` to GitHub.
+- Published commits: `793e32e` runtime env status, `2363bb3` mini-team workflow controls, and `4702dfe` Telegram trust-boundary foundation.
