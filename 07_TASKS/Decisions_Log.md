@@ -233,3 +233,10 @@ Shared
 - Role: Telegram.
 - Reviewer: QA, Security, Frontend.
 - Follow-up: Reopen the Mini App through Telegram and report the debug flags for SDK, WebApp, `initData`, and `tgWebAppData`; if `tgWebAppData` is missing, fix BotFather/deep-link/ngrok launch rather than server auth.
+
+- Decision: Telegram WebView diagnostics must distinguish client hydration from Telegram SDK and launch-context failures.
+- Reason: The debug card showed `SDK wait: 0 checks` after reopening, which means the next investigation needs to know whether React effects are running before diagnosing Telegram-specific launch data.
+- Scope: `src/features/telegram/hooks/useTelegramWebApp.ts`, `src/features/telegram/components/TelegramStatusCard.tsx`, and [[../05_TECH/Telegram_Integration]].
+- Role: Telegram.
+- Reviewer: QA, Security, Frontend.
+- Follow-up: If `Client` remains `not hydrated`, investigate WebView/client bundle execution. If `Client` is `active` but SDK remains missing, investigate loading of `https://telegram.org/js/telegram-web-app.js`. If SDK is available but `tgWebAppData` is missing, investigate BotFather/Open App/ngrok launch context.

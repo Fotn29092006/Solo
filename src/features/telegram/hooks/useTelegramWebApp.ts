@@ -13,6 +13,7 @@ const MAX_WEB_APP_WAIT_ATTEMPTS = 20;
 const BROWSER_PLATFORMS = new Set(["", "browser", "unknown"]);
 
 interface TelegramLaunchDiagnostics {
+  clientEffectActive: boolean;
   sdkAvailable: boolean;
   webAppAvailable: boolean;
   hasInitData: boolean;
@@ -20,6 +21,8 @@ interface TelegramLaunchDiagnostics {
   hasLaunchDataParam: boolean;
   hasLaunchPlatformParam: boolean;
   hasLaunchVersionParam: boolean;
+  hasTelegramScriptTag: boolean;
+  documentReadyState: string;
   launchParamSource: "hash" | "search" | "none";
   attempts: number;
 }
@@ -42,6 +45,7 @@ const initialState: TelegramState = {
   version: "unknown",
   user: null,
   diagnostics: {
+    clientEffectActive: false,
     sdkAvailable: false,
     webAppAvailable: false,
     hasInitData: false,
@@ -49,6 +53,8 @@ const initialState: TelegramState = {
     hasLaunchDataParam: false,
     hasLaunchPlatformParam: false,
     hasLaunchVersionParam: false,
+    hasTelegramScriptTag: false,
+    documentReadyState: "server",
     launchParamSource: "none",
     attempts: 0
   }
@@ -66,17 +72,17 @@ export function useTelegramWebApp() {
       const webApp = getTelegramWebApp();
 
       if (!webApp) {
-        if (attempts < MAX_WEB_APP_WAIT_ATTEMPTS) {
-          timeoutId = window.setTimeout(() => sync(attempts + 1), WEB_APP_WAIT_MS);
-          return;
-        }
-
         if (!isCancelled) {
           setState({
             ...initialState,
-            isReady: true,
+            isReady: attempts >= MAX_WEB_APP_WAIT_ATTEMPTS,
             diagnostics: getLaunchDiagnostics(null, attempts)
           });
+        }
+
+        if (attempts < MAX_WEB_APP_WAIT_ATTEMPTS) {
+          timeoutId = window.setTimeout(() => sync(attempts + 1), WEB_APP_WAIT_MS);
+          return;
         }
 
         return;
@@ -147,6 +153,7 @@ function getLaunchDiagnostics(
   const launchParamSource = hasHashLaunchData ? "hash" : hasSearchLaunchData ? "search" : "none";
 
   return {
+    clientEffectActive: true,
     sdkAvailable: typeof window !== "undefined" && Boolean(window.Telegram),
     webAppAvailable: Boolean(webApp),
     hasInitData: Boolean(webApp?.initData),
@@ -154,6 +161,8 @@ function getLaunchDiagnostics(
     hasLaunchDataParam: hasHashLaunchData || hasSearchLaunchData,
     hasLaunchPlatformParam: hashParams.has("tgWebAppPlatform") || searchParams.has("tgWebAppPlatform"),
     hasLaunchVersionParam: hashParams.has("tgWebAppVersion") || searchParams.has("tgWebAppVersion"),
+    hasTelegramScriptTag: hasTelegramScriptTag(),
+    documentReadyState: typeof document === "undefined" ? "server" : document.readyState,
     launchParamSource,
     attempts
   };
@@ -171,4 +180,12 @@ function getSafeUrlParams(source: "hash" | "search") {
   } catch {
     return new URLSearchParams();
   }
+}
+
+function hasTelegramScriptTag() {
+  if (typeof document === "undefined") {
+    return false;
+  }
+
+  return Boolean(document.querySelector('script[src*="telegram-web-app.js"]'));
 }

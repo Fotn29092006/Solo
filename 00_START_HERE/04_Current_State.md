@@ -136,6 +136,7 @@ Shared
 - `TelegramStatusCard` now includes a development-only Telegram debug block that always renders in development, can copy `initData` and `initDataUnsafe`, and renders only a masked `initData` preview.
 - `useTelegramWebApp` now waits briefly for the Telegram SDK before falling back to browser preview mode.
 - `TelegramStatusCard` now renders development-only sanitized launch diagnostics for SDK availability, WebApp object availability, `initData` presence, `tgWebAppData` launch-param presence/source, platform/version param presence, unsafe user presence, and SDK wait attempts.
+- Telegram development diagnostics also show whether the client effect is active, whether the Telegram SDK script tag exists in the document, and the document readiness state.
 - The development diagnostics do not render raw Telegram launch parameters or raw `initData`.
 - `/api/home`, `/api/water-logs`, `/api/workout-logs`, `/api/sleep-logs`, and `/api/meal-logs` accept `x-telegram-init-data` only in development mode for local smoke requests; production behavior still requires body `initData`.
 - `0005_meal_logging.sql` has been applied to the live development Supabase project and verified on 2026-04-17.

@@ -170,6 +170,7 @@ Telegram smoke testing:
 - `Copy initData` reads `window.Telegram.WebApp.initData` at click time, copies the raw value, and renders only a masked preview with the first 80 characters and field-presence flags.
 - `Copy initDataUnsafe` copies `window.Telegram.WebApp.initDataUnsafe` JSON for debugging only and must not be used for auth.
 - The development debug block also shows sanitized launch diagnostics only: SDK availability, WebApp object availability, `initData` presence, `tgWebAppData` launch-param presence/source, platform/version param presence, unsafe user presence, and SDK wait attempts.
+- The development diagnostics also show whether the client effect is active, whether the Telegram SDK script tag is present, and the document readiness state; this helps distinguish missing Telegram launch context from client-side hydration not running.
 - The diagnostics never render raw URL launch parameters or raw `initData`.
 - If the debug block shows SDK/WebApp available but `tgWebAppData` and `initData` missing, the page was opened without Telegram launch context, usually through a normal browser preview, a plain URL, or an interstitial/redirect that stripped the Telegram launch hash.
 - In production builds, the Telegram debug block is not rendered.

@@ -98,13 +98,16 @@ export function TelegramStatusCard() {
             </div>
           </div>
           <dl className="mt-3 grid grid-cols-2 gap-2 text-xs md:grid-cols-4">
+            <DebugSignal label="Client" value={telegram.diagnostics.clientEffectActive ? "active" : "not hydrated"} />
             <DebugSignal label="SDK" value={telegram.diagnostics.sdkAvailable ? "loaded" : "missing"} />
             <DebugSignal label="WebApp" value={telegram.diagnostics.webAppAvailable ? "available" : "missing"} />
             <DebugSignal label="initData" value={telegram.diagnostics.hasInitData ? "present" : "missing"} />
             <DebugSignal label="tgWebAppData" value={telegram.diagnostics.hasLaunchDataParam ? telegram.diagnostics.launchParamSource : "missing"} />
+            <DebugSignal label="SDK script" value={formatFlag(telegram.diagnostics.hasTelegramScriptTag)} />
             <DebugSignal label="platform param" value={formatFlag(telegram.diagnostics.hasLaunchPlatformParam)} />
             <DebugSignal label="version param" value={formatFlag(telegram.diagnostics.hasLaunchVersionParam)} />
             <DebugSignal label="unsafe user" value={formatFlag(telegram.diagnostics.hasInitDataUnsafeUser)} />
+            <DebugSignal label="document" value={telegram.diagnostics.documentReadyState} />
             <DebugSignal label="SDK wait" value={`${telegram.diagnostics.attempts} checks`} />
           </dl>
           {!telegram.diagnostics.hasInitData ? (

@@ -30,7 +30,7 @@ Validate the live quick-log loop in Telegram, then implement only the safest det
 
 Next tasks:
 
-1. Open the Mini App inside Telegram and read the development-only Telegram diagnostics. If `tgWebAppData` is missing, the app was opened without Telegram launch context and cannot produce valid `initData`.
+1. Open the Mini App inside Telegram and read the development-only Telegram diagnostics. If `Client` stays `not hydrated`, client-side JS is not running. If `Client` is `active` but `tgWebAppData` is missing, the app was opened without Telegram launch context and cannot produce valid `initData`.
 2. Use the development-only `Copy initData` action to capture fresh `TELEGRAM_TEST_INIT_DATA`; store it only in ignored `.env.local`.
 3. Set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev` locally and run `npm run smoke:telegram` to smoke-test Home hydration quest sync, workout quick-log, sleep quick-log, and meal quick-log.
 4. Keep sleep and meal quest auto-completion disabled until runtime matchers use explicit metadata and aggregate thresholds from `04_DATA/Domain_Score_Logic.md`.
@@ -51,7 +51,7 @@ Current blocker:
 - The meal logging DB gate passes.
 - Anti-spam scoring and deterministic matching guardrails are now documented, but real Telegram smoke testing is still external to this terminal session.
 - Telegram quick-log smoke tooling exists, but a fresh valid `TELEGRAM_TEST_INIT_DATA` value is still required for a real passing smoke run.
-- User-reported Telegram Desktop launch still displayed browser preview on 2026-04-17; the next diagnostic check must compare SDK/WebApp availability and `tgWebAppData` launch-param presence.
+- User-reported Telegram Desktop launch still displayed browser preview on 2026-04-17; the next diagnostic check must compare Client, SDK, SDK script, WebApp, `initData`, and `tgWebAppData` values.
 - Future migrations still need Dashboard SQL or authenticated Supabase CLI workflow before runtime writes are implemented.
 
 Do not change:

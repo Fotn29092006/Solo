@@ -285,3 +285,7 @@ Shared
 - Kept diagnostics secret-safe: no raw `initData`, raw `initDataUnsafe`, or raw URL launch parameters are rendered.
 - Improved the debug card layout so buttons do not overflow on narrow Telegram WebView widths.
 - Verification passed: `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.
+- Continued after the user shared a second Telegram debug screenshot where `SDK wait` still showed `0 checks`.
+- Added development-only client hydration diagnostics to `TelegramStatusCard`: `Client`, `SDK script`, and `document` readiness.
+- Updated `useTelegramWebApp` so missing-WebApp retry attempts update the visible diagnostic counter immediately instead of only after the final retry.
+- Verified `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.
