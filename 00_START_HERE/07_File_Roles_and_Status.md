@@ -83,6 +83,7 @@ Data and tech:
 | --- | --- | --- | --- |
 | [[../04_DATA/Data_Model_Overview]] | Authority | Draft | Entity map. |
 | [[../04_DATA/Database_Schema]] | Authority | Draft | Supabase/Postgres schema notes. |
+| [[../04_DATA/Domain_Score_Logic]] | Authority | Draft | Scoring guardrails, aggregate signal rules, and anti-spam domain score constraints. |
 | [[../05_TECH/Architecture]] | Authority | Draft | Stack and module boundaries. |
 | [[../05_TECH/Env_Variables]] | Authority | Draft | Environment variable inventory. |
 | [[../05_TECH/Security]] | Authority | Draft | Security risks and baseline. |

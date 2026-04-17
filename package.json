@@ -8,7 +8,12 @@
     "start": "next start",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "verify:supabase:mvp": "node scripts/verify-supabase-mvp-spine.mjs"
+    "verify:supabase:mvp": "node scripts/verify-supabase-mvp-spine.mjs",
+    "verify:supabase:water": "node scripts/verify-supabase-water-logging.mjs",
+    "verify:supabase:workout": "node scripts/verify-supabase-workout-logging.mjs",
+    "verify:supabase:sleep": "node scripts/verify-supabase-sleep-logging.mjs",
+    "verify:supabase:meal": "node scripts/verify-supabase-meal-logging.mjs",
+    "smoke:telegram": "node scripts/smoke-telegram-quick-logs.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.2",

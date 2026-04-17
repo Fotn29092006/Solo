@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-16
+2026-04-17
 
 ## Related Files
 - [[04_Current_State]]
@@ -26,24 +26,31 @@ Current milestone: Phase 0 to Phase 1 transition.
 
 Nearest goal:
 
-Wire the foundation runtime into real Telegram and Supabase flows.
+Validate the live quick-log loop in Telegram, then implement only the safest deterministic log-to-quest matchers that follow the new scoring guardrails.
 
 Next tasks:
 
-1. Apply the MVP spine migration through Supabase Dashboard SQL editor, or configure Supabase CLI auth/linking and then run the CLI migration path.
-2. Run `npm run verify:supabase:mvp` after migration apply and confirm all eight MVP tables return success.
-3. Implement a server route that validates Telegram init data and looks up or creates `profiles` by `telegram_user_id`.
-4. Wire onboarding structure to create `goals` and `user_paths` through the validated server identity path.
-5. Define first real daily quest seed data and XP event write path.
+1. Open the Mini App inside Telegram and use the development-only `Copy initData` action to capture fresh `TELEGRAM_TEST_INIT_DATA`; store it only in ignored `.env.local`.
+2. Set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev` locally and run `npm run smoke:telegram` to smoke-test Home hydration quest sync, workout quick-log, sleep quick-log, and meal quick-log.
+3. Keep sleep and meal quest auto-completion disabled until runtime matchers use explicit metadata and aggregate thresholds from `04_DATA/Domain_Score_Logic.md`.
+4. Implement the next matcher only for simple explicitly seeded quests, such as sleep duration target or meal-log count/type; do not match broad titles/domains.
+5. Keep rank, standalone streaks, domain scores, penalties, and bot notifications disabled for raw logs until daily caps and rolling aggregate scoring are implemented.
 6. Rotate the Telegram Bot token and Supabase service role key before production use.
 7. Configure BotFather/Mini App launch URL when the public Mini App URL exists.
 8. Finalize exact public app name and MVP domain boundaries.
 
 Current blocker:
 
-- This workspace has Supabase CLI 2.84.2, but it is not linked to the Supabase project and has no CLI access token available. Migration apply cannot be completed from Codex until Dashboard SQL is run manually or CLI authentication/linking is configured.
-- A live service-role REST probe on 2026-04-16 returned HTTP 404 for `profiles`, `goals`, `user_paths`, `daily_quests`, `quest_completions`, `weekly_checkins`, `xp_events`, and `streaks`.
-- The Level 3 parallel workstreams for Telegram identity and onboarding are recorded in `07_TASKS/Parallel_Workstreams.md`, but all implementation streams are blocked until `npm run verify:supabase:mvp` passes.
+- This workspace has Supabase CLI 2.84.2, but it is not linked to the Supabase project and has no CLI access token available. Future migration apply cannot be completed from Codex until Dashboard SQL is run manually or CLI authentication/linking is configured.
+- `SUPABASE_ACCESS_TOKEN` is not present in the current process environment.
+- The MVP spine DB gate passes.
+- The water logging DB gate passes.
+- The workout logging DB gate passes.
+- The sleep logging DB gate passes.
+- The meal logging DB gate passes.
+- Anti-spam scoring and deterministic matching guardrails are now documented, but real Telegram smoke testing is still external to this terminal session.
+- Telegram quick-log smoke tooling exists, but a fresh valid `TELEGRAM_TEST_INIT_DATA` value is still required for a real passing smoke run.
+- Future migrations still need Dashboard SQL or authenticated Supabase CLI workflow before runtime writes are implemented.
 
 Do not change:
 

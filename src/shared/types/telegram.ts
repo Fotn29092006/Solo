@@ -84,12 +84,36 @@ export interface TelegramIdentityHint {
   telegramUserId: string;
 }
 
+export interface TelegramProfileIdentity {
+  id: string;
+  telegramUserId: string;
+  telegramUsername: string | null;
+  displayName: string | null;
+  level: number;
+  totalXp: number;
+  rankKey: string;
+}
+
 export interface TelegramInitDataValidationResult {
   ok: boolean;
   status: TelegramInitDataValidationStatus;
   user: TelegramValidatedUser | null;
   identity: TelegramIdentityHint | null;
   authDate: string | null;
+}
+
+export type TelegramAuthStatus =
+  | TelegramInitDataValidationStatus
+  | "missing_supabase_config"
+  | "profile_upsert_failed";
+
+export interface TelegramAuthResponse {
+  ok: boolean;
+  status: TelegramAuthStatus;
+  user: TelegramValidatedUser | null;
+  identity: TelegramIdentityHint | null;
+  authDate: string | null;
+  profile: TelegramProfileIdentity | null;
 }
 
 declare global {

@@ -53,7 +53,7 @@ Core module docs:
 - Product: [[../01_PRODUCT/Vision]]
 - UX/UI: [[../02_UX_UI/Screen_Map]], [[../02_UX_UI/Visual_Direction]]
 - Systems: [[../03_SYSTEMS/Quest_System]], [[../03_SYSTEMS/XP_System]], [[../03_SYSTEMS/Adaptive_Mission_Engine]]
-- Data: [[../04_DATA/Data_Model_Overview]], [[../04_DATA/Database_Schema]]
+- Data: [[../04_DATA/Data_Model_Overview]], [[../04_DATA/Database_Schema]], [[../04_DATA/Domain_Score_Logic]]
 - Tech: [[../05_TECH/Architecture]], [[../05_TECH/Telegram_Integration]], [[../05_TECH/Supabase_Setup]]
 - Build: [[../06_BUILD/MVP_Scope]], [[../06_BUILD/Milestone_01_Foundation]]
 - Operations: [[04_Current_State]], [[05_Next_Steps]], [[../07_TASKS/Agent_Workstreams]], [[../07_TASKS/Parallel_Workstreams]], [[../07_TASKS/Current_Sprint]], [[../07_TASKS/Backlog]], [[../07_TASKS/Decisions_Log]], [[../07_TASKS/Open_Questions]], [[../07_TASKS/Bugs]], [[../10_LOGS/Session_Log]]

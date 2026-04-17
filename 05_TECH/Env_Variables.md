@@ -10,7 +10,7 @@ Draft
 Shared
 
 ## Last Updated
-2026-04-16
+2026-04-17
 
 ## Related Files
 - [[Supabase_Setup]]
@@ -25,6 +25,11 @@ Expected variables:
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_BOT_USERNAME`
 - `TELEGRAM_MINI_APP_URL`
+- `NEXT_PUBLIC_APP_URL`
+
+Local smoke-test variables:
+
+- `TELEGRAM_TEST_INIT_DATA`
 
 Migration/admin-only variable:
 
@@ -48,6 +53,10 @@ Current runtime usage:
 - `SUPABASE_SERVICE_ROLE_KEY` is also used by `npm run verify:supabase:mvp` for local admin verification of table existence; the script must never print the key.
 - `SUPABASE_SERVICE_ROLE_KEY` must be rotated before production because it was shared in chat.
 - `TELEGRAM_MINI_APP_URL` is currently empty locally because no public Mini App launch URL is configured yet.
+- `NEXT_PUBLIC_APP_URL` is required by `npm run smoke:telegram` and should point to the current public development URL, such as `https://flashing-hazelnut-scored.ngrok-free.dev`.
+- `TELEGRAM_TEST_INIT_DATA` is optional and local-only. It is copied from `window.Telegram.WebApp.initData` after opening the Mini App inside Telegram and is used only by `npm run smoke:telegram`.
+- `TELEGRAM_TEST_INIT_DATA` must never be committed, pasted into docs, or printed in logs.
+- `npm run smoke:telegram` sends `TELEGRAM_TEST_INIT_DATA` only through the `x-telegram-init-data` header and never through a JSON payload field.
 
 Verified local status:
 
@@ -57,4 +66,6 @@ Verified local status:
 - Telegram Bot token is present in ignored `.env.local`.
 - Telegram Bot username is present in ignored `.env.local`.
 - Telegram Mini App URL is not set yet.
+- Public smoke base URL should be set locally as `NEXT_PUBLIC_APP_URL` before running `npm run smoke:telegram`.
+- Telegram smoke-test init data is optional and may be absent until a real Telegram Mini App launch is configured.
 - Supabase CLI access token is not available in the current workspace environment, so CLI project listing/linking and migration push are blocked.

@@ -15,6 +15,14 @@ The foundation migration creates only the MVP data spine:
 - xp_events
 - streaks
 
+The applied logging migrations add the first MVP logging tables:
+
+- water_logs
+- workout_logs
+- sleep_logs
+
+- meal_logs
+
 Do not add extra tables until the vault docs and MVP scope are updated.
 
 ## Identity Boundary
@@ -39,6 +47,14 @@ Never commit real keys.
 ## Migration Apply Notes
 `supabase/migrations/0001_mvp_spine.sql` expects a fresh development target or clean migration history.
 
+`supabase/migrations/0002_water_logging.sql` expects the MVP spine to exist first and creates only `water_logs`.
+
+`supabase/migrations/0003_workout_logging.sql` expects the MVP spine to exist first and creates only `workout_logs`.
+
+`supabase/migrations/0004_sleep_logging.sql` expects the MVP spine to exist first and creates only `sleep_logs`.
+
+`supabase/migrations/0005_meal_logging.sql` expects the MVP spine to exist first and creates only `meal_logs`.
+
 To apply from CLI, the workspace needs Supabase CLI authentication and project linking. API keys alone are not enough to run SQL migrations from this repo.
 
 Current workspace status:
@@ -46,10 +62,20 @@ Current workspace status:
 - Supabase CLI is installed locally at version 2.84.2.
 - `supabase/config.toml` is not present, so the workspace is not linked.
 - `supabase projects list` is blocked until a CLI access token or login exists.
+- `SUPABASE_ACCESS_TOKEN` is not present in the current process environment.
 - No Supabase MCP SQL/migration resource is available to this Codex session.
 - Do not use service-role API-key workarounds for DDL.
 - `npm run verify:supabase:mvp` can verify table presence after the migration is applied. It uses local admin credentials and does not print secrets.
-- Latest live verification on 2026-04-16 returned HTTP 404 for all eight MVP tables, so the migration still needs to be applied.
+- Latest live verification on 2026-04-16 reached the Supabase project, and all eight MVP tables returned HTTP 200.
+- `npm run verify:supabase:water` verifies the `water_logs` table after `0002_water_logging.sql` is applied.
+- Latest water logging verification on 2026-04-17 reached the Supabase project, and `water_logs` returned HTTP 200.
+- `npm run verify:supabase:workout` verifies the `workout_logs` table after `0003_workout_logging.sql` is applied.
+- Latest workout logging verification on 2026-04-17 reached the Supabase project, and `workout_logs` returned HTTP 200.
+- `npm run verify:supabase:sleep` verifies the `sleep_logs` table after `0004_sleep_logging.sql` is applied.
+- Latest sleep logging verification on 2026-04-17 reached the Supabase project, and `sleep_logs` returned HTTP 200.
+- `npm run verify:supabase:meal` verifies the local meal migration contract, the live `meal_logs` column contract, and anon insert blocking after `0005_meal_logging.sql` is applied.
+- Latest meal logging verification on 2026-04-17 reached the Supabase project, `meal_logs` returned HTTP 200, and anon insert probe returned HTTP 401.
+- If a verifier run returns `network_error`, treat it as a connectivity/tooling failure, not as proof that tables exist or do not exist.
 
 Manual development path:
 
@@ -57,7 +83,30 @@ Manual development path:
 2. Confirm the target Supabase project does not already contain these tables.
 3. Run the SQL once in the Supabase Dashboard SQL editor.
 4. Run `npm run verify:supabase:mvp`.
-5. Keep anon/client table access disabled until the RLS/JWT strategy is finalized.
+5. If the verifier reports `network_error`, restore Supabase connectivity and rerun it before interpreting table state.
+6. Keep anon/client table access disabled until the RLS/JWT strategy is finalized.
+
+For `0002_water_logging.sql`, apply it only after the MVP spine exists, then run `npm run verify:supabase:water`.
+
+For `0003_workout_logging.sql`, the live development project has already been applied and verified. For a new development target, apply it only after the MVP spine exists, then run `npm run verify:supabase:workout`.
+
+For `0004_sleep_logging.sql`, the live development project has already been applied and verified. For a new development target, apply it only after the MVP spine exists, then run `npm run verify:supabase:sleep`.
+
+For `0005_meal_logging.sql`, the live development project has already been applied and verified. For a new development target, apply it only after the MVP spine exists, then run `npm run verify:supabase:meal`.
+
+## Dashboard SQL Apply Checklist
+
+Use this when CLI login/linking is not available:
+
+1. Open the Supabase Dashboard for the development project.
+2. Open SQL Editor.
+3. Paste the full contents of `supabase/migrations/0001_mvp_spine.sql`.
+4. Confirm the target is the intended development project.
+5. Run the SQL once.
+6. Return to this workspace and run `npm run verify:supabase:mvp`.
+7. Start new persistence streams only after all relevant tables pass.
+
+For later migrations, repeat the same Dashboard SQL path with the specific migration file and a targeted verifier for the new table.
 
 ## First Local Check
 After environment variables are configured:

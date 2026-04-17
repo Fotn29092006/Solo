@@ -55,19 +55,54 @@ async function probeTable({ baseUrl, serviceRoleKey, table }) {
   url.searchParams.set("select", "*");
   url.searchParams.set("limit", "1");
 
-  const response = await fetch(url, {
-    headers: {
-      apikey: serviceRoleKey,
-      authorization: `Bearer ${serviceRoleKey}`,
-      prefer: "count=exact",
-    },
-  });
+  try {
+    const response = await fetch(url, {
+      headers: {
+        apikey: serviceRoleKey,
+        authorization: `Bearer ${serviceRoleKey}`,
+        prefer: "count=exact",
+      },
+    });
 
-  return {
-    table,
-    ok: response.ok,
-    status: response.status,
-  };
+    return {
+      table,
+      ok: response.ok,
+      status: response.status,
+      error: "",
+    };
+  } catch (error) {
+    return {
+      table,
+      ok: false,
+      status: "network_error",
+      error: error instanceof Error ? error.message : "Unknown network error",
+    };
+  }
+}
+
+async function probeSupabaseReachability({ baseUrl, serviceRoleKey }) {
+  const url = new URL("/auth/v1/settings", baseUrl);
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        apikey: serviceRoleKey,
+        authorization: `Bearer ${serviceRoleKey}`,
+      },
+    });
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      error: "",
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: "network_error",
+      error: error instanceof Error ? error.message : "Unknown network error",
+    };
+  }
 }
 
 const localEnv = readLocalEnv();
@@ -80,32 +115,60 @@ if (!supabaseUrl || !serviceRoleKey) {
   );
   process.exitCode = 1;
 } else {
-  console.log("Checking Supabase MVP spine tables...");
+  console.log("Checking Supabase project reachability...");
 
-  const results = await Promise.all(
-    requiredTables.map((table) =>
-      probeTable({
-        baseUrl: supabaseUrl,
-        serviceRoleKey,
-        table,
-      }),
-    ),
-  );
+  const reachability = await probeSupabaseReachability({
+    baseUrl: supabaseUrl,
+    serviceRoleKey,
+  });
+  const reachabilityDetail = reachability.error ? ` (${reachability.error})` : "";
 
-  for (const result of results) {
-    console.log(`${result.table}: ${result.status}`);
-  }
+  console.log(`Supabase reachability: ${reachability.status}${reachabilityDetail}`);
 
-  const missingTables = results.filter((result) => !result.ok);
-
-  if (missingTables.length > 0) {
+  if (!reachability.ok && reachability.status === "network_error") {
     console.error(
-      `MVP spine verification failed. Unavailable tables: ${missingTables
-        .map((result) => `${result.table}(${result.status})`)
-        .join(", ")}`,
+      "Supabase network check failed. Restore connectivity and rerun before interpreting table state.",
     );
     process.exitCode = 1;
   } else {
-    console.log("MVP spine verification passed.");
+    console.log("Checking Supabase MVP spine tables...");
+
+    const results = await Promise.all(
+      requiredTables.map((table) =>
+        probeTable({
+          baseUrl: supabaseUrl,
+          serviceRoleKey,
+          table,
+        }),
+      ),
+    );
+
+    for (const result of results) {
+      const detail = result.error ? ` (${result.error})` : "";
+      console.log(`${result.table}: ${result.status}${detail}`);
+    }
+
+    const missingTables = results.filter((result) => !result.ok);
+
+    if (missingTables.length > 0) {
+      const allMissing = missingTables.length === requiredTables.length;
+      const allNotFound = missingTables.every((result) => result.status === 404);
+
+      console.error(
+        `MVP spine verification failed. Unavailable tables: ${missingTables
+          .map((result) => `${result.table}(${result.status})`)
+          .join(", ")}`,
+      );
+
+      if (allMissing && allNotFound) {
+        console.error(
+          "All required tables returned 404. Apply supabase/migrations/0001_mvp_spine.sql to the target project, then rerun this verifier.",
+        );
+      }
+
+      process.exitCode = 1;
+    } else {
+      console.log("MVP spine verification passed.");
+    }
   }
 }

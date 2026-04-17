@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-16
+2026-04-17
 
 ## Related Files
 - [[Open_Questions]]
@@ -92,9 +92,137 @@ Shared
 - Role: Architect.
 - Reviewer: DB, Backend, QA.
 - Follow-up: Apply the MVP migration through Supabase Dashboard SQL Editor, rerun the verifier, then start the downstream streams.
+- Update 2026-04-16: DB gate passed and downstream profile/onboarding streams started.
 - Decision: Temporary internal MVP onboarding keys are allowed for the next persistence pass.
 - Reason: Goal/path persistence needs stable internal values before final public naming is decided.
 - Scope: future onboarding route and onboarding UI work.
 - Role: Product/Analyst.
 - Reviewer: Architect, Backend, QA.
 - Follow-up: Use `fat_loss`, `muscle_gain`, `recomposition`, `discipline`, `learning` for `goalType`; use `warrior`, `discipline`, `scholar`, `polyglot`, `rebuild`, `aesthetic`, `balance` for `pathKey`.
+- Decision: Proceed with server-only profile and onboarding writes after the Supabase MVP spine verifier passed.
+- Reason: All eight MVP tables are now reachable in the live development Supabase project, and the existing trust-boundary decision requires writes to derive `profile_id` from validated Telegram init data.
+- Scope: `src/app/api/auth/telegram/route.ts`, `src/app/api/onboarding/route.ts`, `src/lib/supabase/server.ts`, `src/lib/telegram/profile-identity.ts`, `src/features/onboarding/components/OnboardingFlow.tsx`, [[../05_TECH/Supabase_Setup]], [[../05_TECH/Telegram_Integration]], and [[../05_TECH/Security]].
+- Role: Backend.
+- Reviewer: DB, Telegram, QA.
+- Follow-up: Add profile-aware Home state and daily quest seed/write path next.
+- Decision: The first MVP daily quest package is seeded by `/api/home` after Telegram validation when no quests exist for the current profile/date.
+- Reason: Home must become the first useful screen after onboarding, and quest generation must use server-derived identity instead of client-owned data.
+- Scope: `src/app/api/home/route.ts`, `src/lib/quests/daily-quest-seed.ts`, `src/features/home/components/HomeScreen.tsx`, [[../03_SYSTEMS/Quest_System]], [[../05_TECH/Telegram_Integration]], and [[../05_TECH/Security]].
+- Role: Backend.
+- Reviewer: DB, Telegram, QA, Design.
+- Follow-up: Add quest completion and XP event writes with anti-spam checks.
+- Decision: MVP quest completion writes XP from server-owned quest rewards and treats repeat completion as idempotent.
+- Reason: XP must reflect real assigned quest completion, and the client must not be able to submit arbitrary XP or ownership fields.
+- Scope: `src/app/api/quests/complete/route.ts`, `src/features/home/components/HomeScreen.tsx`, [[../03_SYSTEMS/Quest_System]], [[../03_SYSTEMS/XP_System]], [[../05_TECH/Security]], and [[../05_TECH/Telegram_Integration]].
+- Role: Backend.
+- Reviewer: DB, Telegram, QA, Design.
+- Follow-up: Add daily quest streak updates and live Home streak display.
+- Decision: MVP `daily_quest` streak advances only when the full daily quest package is complete for a validated profile and quest date.
+- Reason: Streaks should reward real daily follow-through rather than individual quest taps, and the same date must not inflate consistency.
+- Scope: `src/app/api/quests/complete/route.ts`, `src/app/api/home/route.ts`, `src/lib/streaks/daily-quest-streak.ts`, `src/features/home/components/HomeScreen.tsx`, [[../03_SYSTEMS/Streak_System]], and [[../05_TECH/Security]].
+- Role: Backend.
+- Reviewer: DB, Telegram, QA, Frontend.
+- Follow-up: Add route-level QA coverage around onboarding, Home state, quest completion, and streak contracts.
+- Decision: MVP weekly check-in uses a server-computed current UTC week and upserts one row per `profile_id + week_start_date`.
+- Reason: Weekly review must be low-friction, idempotent for repeat submissions, and protected from client-supplied ownership or week spoofing.
+- Scope: `src/app/api/weekly-checkin/route.ts`, `src/app/api/home/route.ts`, `src/lib/weekly-checkins/week-start.ts`, `src/features/weekly-checkin/components/WeeklyCheckInCard.tsx`, [[../03_SYSTEMS/Weekly_Review_System]], [[../04_DATA/Database_Schema]], [[../05_TECH/Security]], and [[../05_TECH/Telegram_Integration]].
+- Role: Architect.
+- Reviewer: QA, DB, Backend, Telegram, Design.
+- Follow-up: Define the first MVP logging slice after the daily and weekly loops.
+- Decision: Water logging is the first MVP logging slice after daily quests and weekly check-ins.
+- Reason: Hydration is low-friction, supports the Nutrition domain, creates a useful real-behavior signal, and is safer to introduce before higher-friction meal or workout logging.
+- Scope: `supabase/migrations/0002_water_logging.sql`, [[../04_DATA/Data_Model_Overview]], [[../04_DATA/Database_Schema]], [[../05_TECH/Supabase_Setup]], [[../05_TECH/Security]], and `supabase/README.md`.
+- Role: DB.
+- Reviewer: QA, Backend, Telegram.
+- Follow-up: Apply and verify `0002_water_logging.sql`, then implement `/api/water-logs` with server-derived profile ownership and client event idempotency.
+- Decision: `/api/water-logs` records hydration as an idempotent real-behavior log without awarding XP, rank, or streak progress yet.
+- Reason: Hydration logging should become a useful signal before it becomes a reward mechanic; tying XP directly to repeated water taps would create fake progression risk.
+- Scope: `src/app/api/water-logs/route.ts`, `src/app/api/home/route.ts`, `src/features/water/components/WaterQuickLogCard.tsx`, `src/features/home/components/HomeScreen.tsx`, [[../03_SYSTEMS/XP_System]], [[../03_SYSTEMS/Quest_System]], [[../05_TECH/Security]], and [[../05_TECH/Telegram_Integration]].
+- Role: Architect.
+- Reviewer: QA, DB, Backend, Telegram, Design.
+- Follow-up: Define quest-to-log matching and hydration scoring rules before connecting water logs to quest completion or XP events.
+- Decision: Workout logging is the next MVP logging slice after water logging, and starts as a session-level `workout_logs` table only.
+- Reason: Workout sessions are the strongest Body-domain signal, but exercise-level detail, XP, streaks, and quest auto-completion would expand scope and create scoring risk before the basic log path is stable.
+- Scope: `supabase/migrations/0003_workout_logging.sql`, `scripts/verify-supabase-workout-logging.mjs`, `package.json`, [[../04_DATA/Data_Model_Overview]], [[../04_DATA/Database_Schema]], [[../05_TECH/Supabase_Setup]], [[../05_TECH/Security]], and `supabase/README.md`.
+- Role: DB.
+- Reviewer: QA, Backend, Telegram, Product/Analyst, Design.
+- Follow-up: Apply and verify `0003_workout_logging.sql`, then implement `/api/workout-logs` with server-derived profile ownership and `client_event_id` idempotency.
+
+2026-04-17:
+
+- Decision: `/api/workout-logs` records workout sessions as idempotent real-behavior logs without awarding XP, rank, streak progress, or quest auto-completion yet.
+- Reason: Workout sessions are valuable Body-domain signals, but direct rewards from repeated quick-log taps would create fake progression and spam risk before scoring and quest-to-log matching rules exist.
+- Scope: `src/app/api/workout-logs/route.ts`, `src/app/api/home/route.ts`, `src/features/workout/components/WorkoutQuickLogCard.tsx`, `src/features/home/components/HomeScreen.tsx`, [[../03_SYSTEMS/XP_System]], [[../03_SYSTEMS/Quest_System]], [[../05_TECH/Security]], and [[../05_TECH/Telegram_Integration]].
+- Role: Architect.
+- Reviewer: QA, DB, Backend, Telegram, Product/Analyst, Design.
+- Follow-up: Define workout scoring and quest-to-log matching rules before workout logs can affect XP, rank, streaks, domain scores, or quest completion.
+
+- Decision: Hydration is the first and only MVP log source allowed to auto-complete a daily quest, and only after the server-side daily water aggregate reaches at least 1000 ml.
+- Reason: This improves the existing manual hydration quest by requiring a real water log aggregate, while avoiding broad log-to-XP farming and keeping workout auto-completion disabled until stronger scoring exists.
+- Scope: `src/lib/quests/log-quest-sync.ts`, `src/lib/quests/daily-quest-seed.ts`, `src/app/api/water-logs/route.ts`, `src/features/home/components/HomeScreen.tsx`, [[../03_SYSTEMS/Quest_System]], [[../03_SYSTEMS/XP_System]], [[../05_TECH/Security]], and [[../05_TECH/Telegram_Integration]].
+- Role: Architect.
+- Reviewer: QA, Backend, DB, Telegram, Product/Analyst, Design.
+- Follow-up: Smoke-test hydration quest sync in Telegram and keep workout quest auto-completion disabled until workout payload/scoring rules are stronger.
+
+- Decision: Sleep/recovery logging is the next MVP logging slice, and starts as an append-only `sleep_logs` table only.
+- Reason: Recovery is a core product domain, but daily sleep logs must not double-count weekly check-in `sleep_score` or create XP/streak farming before recovery scoring rules exist.
+- Scope: `supabase/migrations/0004_sleep_logging.sql`, `scripts/verify-supabase-sleep-logging.mjs`, `src/shared/types/database.ts`, [[../04_DATA/Data_Model_Overview]], [[../04_DATA/Database_Schema]], [[../05_TECH/Supabase_Setup]], [[../05_TECH/Security]], [[../03_SYSTEMS/XP_System]], [[../03_SYSTEMS/Quest_System]], and `supabase/README.md`.
+- Role: DB.
+- Reviewer: QA, Backend, Telegram, Product/Analyst, Design.
+- Follow-up: Apply and verify `0004_sleep_logging.sql` before adding `/api/sleep-logs` or Home sleep quick-log runtime code.
+
+- Decision: `/api/sleep-logs` records sleep duration as idempotent real-behavior logs without awarding XP, rank, streak progress, quest auto-completion, or bot notifications.
+- Reason: Sleep is a valuable Recovery-domain signal, but direct rewards from repeated sleep quick logs would create fake progression and could double-count weekly check-in `sleep_score`.
+- Scope: `src/app/api/sleep-logs/route.ts`, `src/app/api/home/route.ts`, `src/features/sleep/components/SleepQuickLogCard.tsx`, `src/features/home/components/HomeScreen.tsx`, [[../03_SYSTEMS/XP_System]], [[../03_SYSTEMS/Quest_System]], [[../05_TECH/Security]], and [[../05_TECH/Telegram_Integration]].
+- Role: Architect.
+- Reviewer: QA, DB, Backend, Telegram, Product/Analyst, Design.
+- Follow-up: Define recovery scoring and quest-to-log matching rules before sleep logs can affect XP, rank, streaks, domain scores, or recovery quest completion.
+
+- Decision: Meal/nutrition logging is the next MVP logging slice, and starts as an append-only `meal_logs` table only.
+- Reason: Nutrition is central to body progression, but ingredient-level food logging, calories/macros engines, direct XP, streaks, and quest auto-completion would create friction and spam/fake-progression risk before the basic meal signal is stable.
+- Scope: `supabase/migrations/0005_meal_logging.sql`, `scripts/verify-supabase-meal-logging.mjs`, `src/shared/types/database.ts`, [[../04_DATA/Data_Model_Overview]], [[../04_DATA/Database_Schema]], [[../05_TECH/Supabase_Setup]], [[../05_TECH/Security]], [[../03_SYSTEMS/XP_System]], [[../03_SYSTEMS/Quest_System]], and `supabase/README.md`.
+- Role: DB.
+- Reviewer: QA, Backend, Telegram, Product/Analyst, Design.
+- Follow-up: Apply and verify `0005_meal_logging.sql`, harden log-route payload allowlists, then implement `/api/meal-logs` without XP, rank, streak, quest auto-completion, or bot notification side effects.
+
+- Decision: Existing and future log-write routes must fail closed on unknown top-level request fields before Telegram validation, profile derivation, or Supabase writes.
+- Reason: Ignoring extra client fields makes trust-boundary drift easy, especially for ownership, dates, XP, rank, streak, quest, score, aggregate, or notification values.
+- Scope: `src/app/api/water-logs/route.ts`, `src/app/api/workout-logs/route.ts`, `src/app/api/sleep-logs/route.ts`, `src/app/api/meal-logs/route.ts`, [[../05_TECH/Security]], [[../05_TECH/Telegram_Integration]], and [[../05_TECH/Architecture]].
+- Role: Backend.
+- Reviewer: QA, Telegram, Security.
+- Follow-up: Apply the same strict allowlist pattern to future learning/language/body log routes.
+
+- Decision: `/api/meal-logs` records meal entries as idempotent real-behavior logs without awarding XP, rank, streak progress, quest auto-completion, or bot notifications.
+- Reason: Nutrition logs are valuable signals, but raw meal taps must not create fake progression, spam rewards, or turn the MVP into a calorie-tracker UI.
+- Scope: `src/app/api/meal-logs/route.ts`, `src/app/api/home/route.ts`, `src/features/meal/components/MealQuickLogCard.tsx`, `src/features/home/components/HomeScreen.tsx`, [[../04_DATA/Database_Schema]], [[../05_TECH/Security]], [[../05_TECH/Telegram_Integration]], [[../03_SYSTEMS/XP_System]], and [[../03_SYSTEMS/Quest_System]].
+- Role: Architect.
+- Reviewer: QA, DB, Backend, Telegram, Product/Analyst, Design.
+- Follow-up: Define nutrition scoring, anti-spam limits, and stable quest-matching metadata before meal logs can affect XP, rank, streaks, domain scores, or meal/protein quest completion.
+
+- Decision: Future log-based progression effects must use server-side aggregate scoring and explicit quest metadata, not raw log counts, title matching, or broad domain matching.
+- Reason: Water, workout, sleep, and meal quick-logs are useful real-behavior evidence, but unchecked raw-log rewards would create fake progression, duplicate rewards, timezone abuse, and rank inflation.
+- Scope: [[../04_DATA/Domain_Score_Logic]], [[../03_SYSTEMS/XP_System]], [[../03_SYSTEMS/Quest_System]], [[../03_SYSTEMS/Rank_System]], [[../03_SYSTEMS/Streak_System]], and [[../03_SYSTEMS/Adaptive_Mission_Engine]].
+- Role: Product/Analyst.
+- Reviewer: Architect, QA, Backend, Telegram, DB.
+- Follow-up: Keep workout, sleep, and meal logs evidence-only until runtime matchers use `matchVersion`, `autoCompleteKey`, `matchWindow`, same-profile/date checks, aggregate thresholds, idempotency, and daily reward caps.
+
+- Decision: Add local Telegram quick-log smoke tooling that uses captured Mini App `initData` through public server routes only.
+- Reason: Real Telegram WebView launch cannot be proven from terminal alone, but a captured `initData` value lets Codex validate the server-side Home and quick-log loop without bypassing Telegram validation or Supabase ownership rules.
+- Scope: `scripts/smoke-telegram-quick-logs.mjs`, `src/features/telegram/components/TelegramStatusCard.tsx`, `package.json`, `.env.example`, [[../05_TECH/Telegram_Integration]], [[../05_TECH/Env_Variables]], and [[../05_TECH/Security]].
+- Role: QA/Telegram.
+- Reviewer: Backend, Security.
+- Follow-up: Use the development-only `Copy initData` action to capture fresh `TELEGRAM_TEST_INIT_DATA` from Telegram WebView and run `npm run smoke:telegram`.
+
+- Decision: Telegram smoke tests may pass captured `TELEGRAM_TEST_INIT_DATA` through `x-telegram-init-data` only in development mode, while production routes continue to require body `initData`.
+- Reason: A real Telegram WebView cannot be reproduced honestly from terminal automation, so development header fallback enables local/ngrok smoke tests without weakening production auth or accepting auth secrets as body payload fields.
+- Scope: `src/lib/telegram/request-init-data.ts`, `src/app/api/home/route.ts`, `src/app/api/water-logs/route.ts`, `src/app/api/workout-logs/route.ts`, `src/app/api/sleep-logs/route.ts`, `src/app/api/meal-logs/route.ts`, `scripts/smoke-telegram-quick-logs.mjs`, `src/features/telegram/components/TelegramStatusCard.tsx`, `.env.example`, `README.md`, [[../05_TECH/Telegram_Integration]], [[../05_TECH/Env_Variables]], and [[../05_TECH/Security]].
+- Role: Telegram.
+- Reviewer: QA, Backend, Security.
+- Follow-up: Capture fresh `TELEGRAM_TEST_INIT_DATA` from the real Telegram WebView, set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev`, and run `npm run smoke:telegram`.
+
+- Decision: Workout quick-log may auto-complete only newly seeded Body main quests with explicit `autoCompleteKey = workout_log`, `matchWindow = quest_date`, and `minWorkoutSessions` metadata.
+- Reason: This is the smallest safe Body-domain matcher because it uses server-derived profile/date, daily workout aggregate, idempotent quest completion, and no title/domain fallback or direct raw-log XP.
+- Scope: `src/lib/quests/daily-quest-seed.ts`, `src/lib/quests/log-quest-sync.ts`, `src/app/api/workout-logs/route.ts`, `src/features/home/components/HomeScreen.tsx`, `src/shared/types/game.ts`, [[../03_SYSTEMS/Quest_System]], [[../03_SYSTEMS/XP_System]], [[../04_DATA/Domain_Score_Logic]], [[../05_TECH/Security]], and [[../05_TECH/Telegram_Integration]].
+- Role: Backend.
+- Reviewer: QA, Telegram, Security, Product/Analyst.
+- Follow-up: Keep sleep and meal matchers disabled until they are implemented with the same explicit metadata, aggregate threshold, and idempotency rules.

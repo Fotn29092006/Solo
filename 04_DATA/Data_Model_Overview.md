@@ -10,10 +10,11 @@ Draft
 Shared
 
 ## Last Updated
-2026-04-15
+2026-04-17
 
 ## Related Files
 - [[Database_Schema]]
+- [[Domain_Score_Logic]]
 - [[../05_TECH/Supabase_Setup]]
 
 ## Content
@@ -28,6 +29,19 @@ Current runtime spine:
 - xp_events
 - streaks
 
+Current logging entities:
+
+- water_logs: append-only hydration events for the validated profile; migration `0002_water_logging.sql` is applied and the Mini App has a server route plus Home quick-log entry.
+- workout_logs: append-only workout session events for the validated profile; migration `0003_workout_logging.sql` is applied and the Mini App has a server route plus Home quick-log entry.
+- sleep_logs: append-only sleep duration events for the validated profile; migration `0004_sleep_logging.sql` is applied and the Mini App has a server route plus Home quick-log entry.
+- meal_logs: append-only meal events for the validated profile; migration `0005_meal_logging.sql` is applied and the Mini App has a server route plus Home quick-log entry.
+- Water, workout, sleep, and meal logs are real-behavior signals.
+- Water logs can auto-complete only the assigned hydration quest through server-side aggregate matching.
+- Workout, sleep, and meal logs do not award XP, update rank/streaks, or auto-complete quests until scoring and quest-to-log matching rules are defined.
+- Meal logs are a Nutrition-domain behavior signal, not a calorie engine or ingredient-level food database.
+- Meal logs must stay log-only until anti-spam scoring, deterministic quest matching metadata, and runtime allowlist validation are defined.
+- Domain scoring guardrails are documented in [[Domain_Score_Logic]]; no runtime `domain_scores` table exists yet.
+
 Current identity rule:
 
 - Telegram is the external identity source for the MVP.
@@ -41,9 +55,7 @@ Future entities from the broader product model:
 - body_metrics
 - workouts
 - workout_exercises
-- food_logs
-- water_logs
-- sleep_logs
+- ingredient-level food_logs
 - learning_logs
 - language_logs
 - habits

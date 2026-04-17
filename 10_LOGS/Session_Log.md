@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-16
+2026-04-17
 
 ## Related Files
 - [[../00_START_HERE/04_Current_State]]
@@ -93,3 +93,188 @@ Shared
 - Recorded the Level 3 workstream map in `Parallel_Workstreams.md` with downstream implementation streams blocked behind P1-DB-GATE.
 - Recorded that the current tool environment cannot run 10-15 agents at once; it enforces a hard active-agent thread limit, so future parallel work must run in waves after the DB gate passes.
 - Stabilized `npm run verify:supabase:mvp` so failed table checks return a clean non-zero exit code without the Windows Node assertion that appeared after the 404 probe.
+- Scanned the project again for the next actionable step and confirmed profile/onboarding persistence remains the correct next implementation target, but it is still gated by Supabase table verification.
+- Attempted to launch the requested architect sub-agent twice; both attempts failed before completion with a Codex subagent stream-disconnect error.
+- Recorded a six-stream readiness split for DB, Backend, Telegram, Frontend, QA, and Product/Design while keeping write implementation blocked until the DB gate passes.
+- Re-ran `npm run verify:supabase:mvp`; the workspace could not reach Supabase and all eight MVP tables reported `network_error`.
+- Hardened `scripts/verify-supabase-mvp-spine.mjs` so Supabase network/fetch failures report clean `network_error` statuses instead of uncaught stack traces.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`.
+- Continued DB-gate diagnostics after the user asked to continue.
+- Confirmed DNS and TCP 443 to the Supabase host work outside the sandbox, and `/auth/v1/settings` returned HTTP 200.
+- Re-ran `npm run verify:supabase:mvp`; the verifier reached Supabase and all eight MVP tables returned HTTP 404.
+- Added a Supabase reachability preflight and explicit all-tables-404 hint to `scripts/verify-supabase-mvp-spine.mjs`.
+- Confirmed `SUPABASE_ACCESS_TOKEN` and `supabase/config.toml` are absent, so CLI migration apply remains unavailable from this workspace.
+- Added a Dashboard SQL apply checklist to `supabase/README.md`.
+- Continued after the user asked to proceed with `supabase/migrations/0001_mvp_spine.sql` open.
+- Re-ran `npm run verify:supabase:mvp`; Supabase reachability and all eight MVP tables returned HTTP 200.
+- Added a server-only Supabase service-role client.
+- Updated `/api/auth/telegram` to validate Telegram init data and look up or create a profile by `telegram_user_id`.
+- Added profile identity helpers and unit coverage for safe profile upsert shape and API identity mapping.
+- Added `/api/onboarding` to persist MVP goal and path using a derived `profile_id`.
+- Replaced the onboarding placeholder with a Telegram-first goal/path form that submits raw Telegram `initData` to the server route.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run build`, and `git diff --check`.
+- Continued into the profile-aware Home and daily quest seed stream.
+- Added `src/lib/quests/daily-quest-seed.ts` with the first MVP package: 1 main quest, 2 side quests, 1 discipline quest, and 1 recovery quest.
+- Added `/api/home` to validate Telegram init data, derive `profile_id`, read active goal/path, and seed today's daily quests when missing.
+- Wired the Home screen to load live profile state and real daily quests from `/api/home`, with a browser preview fallback.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run build`, and `git diff --check`.
+- Continued into the daily quest completion and XP event path.
+- Added `/api/quests/complete` to validate Telegram init data, derive `profile_id`, verify quest ownership, complete assigned quests, write `quest_completions`, write `xp_events`, and sync profile XP/level.
+- Added Home quick-complete buttons for assigned quests.
+- Documented that repeated completion attempts are idempotent and do not award XP again.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run build`, and `git diff --check`.
+- Continued into the daily quest streak update and live Home streak display.
+- Added `src/lib/streaks/daily-quest-streak.ts` with unit coverage for first completion, same-date idempotency, consecutive dates, missed-date reset, and older-date ignore behavior.
+- Updated `/api/quests/complete` so the `daily_quest` streak advances only when the full daily package is complete for the quest date.
+- Updated `/api/home` and Home UI to read and render the live daily quest streak.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run build`, and `git diff --check`.
+- Continued into route-level QA coverage.
+- Added API route tests for onboarding missing init data, invalid MVP payload, and server-derived profile ownership writes.
+- Added API route tests for Home missing init data and live Home state with active goal/path, quests, and streaks.
+- Added API route tests for quest completion invalid quest IDs and the completion/XP/streak response contract.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run build`, and `git diff --check`.
+- Continued with a Level 3 weekly check-in/read path after the user asked to keep progressing with agents.
+- Launched Product/Architect, QA, and Frontend/Design explorer agents for the weekly check-in path and integrated their recommendations.
+- Added `/api/weekly-checkin` for current-week read/write through validated Telegram identity and server-derived `profile_id`.
+- Added UTC week-start and weekly review streak helpers.
+- Added a compact Home weekly review card and submit flow.
+- Updated `/api/home` to return current weekly check-in state.
+- Added weekly check-in route tests and extended Home route tests for weekly state.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run build`, and `git diff --check`.
+- Continued into the first MVP logging slice after daily quests and weekly check-ins.
+- Launched a QA/Backend reviewer sub-agent for the water logging contract and integrated its checklist.
+- Selected water logging as the first logging slice because it is low-friction and provides a real Nutrition-domain signal.
+- Added `supabase/migrations/0002_water_logging.sql` for `water_logs` with validated profile ownership, `client_event_id` idempotency, amount bounds, UTC log date, indexes, and RLS enabled without anon/client policies.
+- Updated the data, Supabase, security, sprint, decision, and operational memory docs for the prepared water logging schema.
+- Kept `/api/water-logs` and Home water quick-log writes deferred until `0002_water_logging.sql` is applied and the live `water_logs` table is verified.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run build`, and `git diff --check`.
+
+2026-04-17:
+
+- Continued from the water logging blocker after the user asked to continue.
+- Completed the required vault reading route and checked live Supabase `water_logs` status.
+- The first sandboxed water table probe hit a network error; the approved out-of-sandbox probe returned `water_logs: 200`.
+- Launched Backend/Telegram, Frontend/Design, and QA explorer agents for the water route and Home quick-log pass, then integrated their checklists.
+- Added `scripts/verify-supabase-water-logging.mjs` and `npm run verify:supabase:water`.
+- Updated database and game shared types for `water_logs`, `WaterLogResponse`, and `waterToday`.
+- Added `/api/water-logs` with Telegram validation, server-derived `profile_id`, strict amount and UUID validation, `client_event_id` idempotency, and today's hydration aggregate.
+- Updated `/api/home` to return today's hydration aggregate for the validated profile.
+- Added `WaterQuickLogCard` and wired Home to submit hydration quick logs without overwriting quest or weekly-review feedback.
+- Added route-level tests for water logging and extended Home route coverage for `waterToday`.
+- Documented that water logging is a real behavior signal but does not award XP, rank, or streak progress yet.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run verify:supabase:water`, `npm run build`, and `git diff --check`.
+- The sandboxed `npm run verify:supabase:water` hit a network error during final QA; the approved out-of-sandbox rerun reached Supabase and passed.
+- Continued after the user requested strict plan execution, five agents, visible progress, and immediate blocker reporting.
+- Reported that real Telegram smoke for hydration still requires a real Telegram WebView or valid Mini App init data and cannot be honestly claimed from the terminal alone.
+- Launched five explorer agents for the next workout logging slice: Product/Analyst, DB, Backend/Telegram, Frontend/Design, and QA.
+- Integrated the agent results into a narrow scope: prepare session-level `workout_logs` schema and verifier only, without runtime API, Home UI, XP, rank, streak, or quest auto-completion.
+- Added `supabase/migrations/0003_workout_logging.sql`.
+- Added `scripts/verify-supabase-workout-logging.mjs` and `npm run verify:supabase:workout`.
+- Updated data, Supabase, security, XP, quest, sprint, decision, and operational memory docs for the prepared workout logging schema.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run verify:supabase:water`, `npm run build`, and `git diff --check`.
+- Ran `npm run verify:supabase:workout`; the sandboxed run hit `network_error`, and the approved out-of-sandbox rerun reached Supabase and returned `workout_logs: 404`.
+- Recorded that `/api/workout-logs` and Home workout quick-log remain blocked until `0003_workout_logging.sql` is applied and the workout verifier passes.
+- Continued after the user requested 10 agents and larger full steps.
+- Ran `npm run verify:supabase:workout`; the approved verifier reached Supabase and returned `workout_logs: 200`, so the workout DB gate passed.
+- Launched 10 agent roles in two waves because the tool has a hard limit of six active agents at once; integrated Backend, Types/DB, Frontend, Route QA, Home QA, Security, Telegram UX, Product, Docs/Memory, and Integration QA feedback.
+- Added `workout_logs` to shared database types and added workout request/response/Home summary types.
+- Added `/api/workout-logs` with Telegram validation, server-derived `profile_id`, strict payload validation, `client_event_id` idempotency, and today's workout aggregate.
+- Updated `/api/home` to return today's workout aggregate for the validated profile.
+- Added `WorkoutQuickLogCard` and wired Home to submit quick workout logs without touching quests, water, weekly review, XP, rank, or streak state.
+- Added route-level tests for workout logging and extended Home route coverage for `workoutToday`.
+- Documented that workout logging is a real Body-domain behavior signal but does not award XP, rank, streak progress, or quest auto-completion until separate scoring and quest-to-log rules exist.
+- Verified `npm test`, `npm run typecheck`, `npm run verify:supabase:mvp`, `npm run verify:supabase:water`, `npm run verify:supabase:workout`, `npm run build`, and `git diff --check`.
+- Continued into the next planned quest-to-log matching step.
+- Launched six role agents for Product/scoring, Backend, Security, QA, DB/Data, and Telegram/UX review.
+- Chose the smallest safe MVP rule: hydration can auto-complete only the assigned water daily quest after the server-side daily water aggregate reaches 1000 ml; workout remains manual.
+- Added stable `autoCompleteKey = water_log` metadata to newly seeded hydration quests.
+- Added `src/lib/quests/log-quest-sync.ts` for hydration quest sync and matcher safeguards.
+- Updated `/api/water-logs` to run hydration quest sync after successful log writes or idempotent existing-log reads.
+- Updated Home hydration quick-log handling so a successful quest sync updates the existing quest list, profile XP/level, and daily quest streak summary without adding UI bloat.
+- Added matcher unit tests and route tests for hydration auto-complete and below-threshold non-completion.
+- Verified `npm test` and `npm run typecheck` during implementation.
+- Final verification passed: `npm test`, `npm run typecheck`, `npm run build`, `npm run verify:supabase:mvp`, `npm run verify:supabase:water`, `npm run verify:supabase:workout`, and `git diff --check`.
+- Continued into the next recovery-domain logging prep after the user asked to go further.
+- Launched five role agents for Product/Analyst, DB, Backend/Telegram, Frontend/Design, and QA review of the sleep/recovery slice.
+- Integrated the agent results into a narrow scope: prepare append-only `sleep_logs` schema and verifier only, without runtime API, Home UI, XP, rank, streak, quest auto-completion, or bot notification side effects.
+- Added `supabase/migrations/0004_sleep_logging.sql`.
+- Added `scripts/verify-supabase-sleep-logging.mjs` and `npm run verify:supabase:sleep`.
+- Added `sleep_logs` to shared database types.
+- Updated data, Supabase, security, XP, quest, sprint, decision, and operational memory docs for the prepared sleep logging schema.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, `npm run verify:supabase:mvp`, `npm run verify:supabase:water`, `npm run verify:supabase:workout`, and `git diff --check`.
+- Ran `npm run verify:supabase:sleep`; the sandboxed run hit `network_error`, and the approved out-of-sandbox rerun reached Supabase and returned `sleep_logs: 404`.
+- Recorded that `/api/sleep-logs` and Home sleep quick-log remain blocked until `0004_sleep_logging.sql` is applied and the sleep verifier passes.
+- Continued after the user asked to go further with `0004_sleep_logging.sql` open.
+- Re-ran `npm run verify:supabase:sleep`; the sandboxed run hit `network_error`, and the approved out-of-sandbox rerun reached Supabase and returned `sleep_logs: 200`, so the sleep DB gate passed.
+- Launched five reviewer agents for Backend/Telegram, Frontend/Design, QA, Security/abuse, and Docs/Memory review of the sleep runtime slice.
+- Added `SleepLogRequest`, `SleepLogResponse`, `SleepLogSummary`, and `SleepTodaySummary` shared game types.
+- Added `/api/sleep-logs` with Telegram validation, server-derived `profile_id`, strict payload validation, `client_event_id` idempotency, and today's sleep aggregate.
+- Updated `/api/home` to return today's sleep aggregate for the validated profile; sleep aggregate read failures are soft and do not fail the full Home payload.
+- Added `SleepQuickLogCard` and wired Home to submit quick sleep logs without touching quests, XP, rank, streaks, water, workout, weekly review, or bot notifications.
+- Added route-level tests for sleep logging and extended Home route coverage for `sleepToday` and sleep read resilience.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, `npm run verify:supabase:mvp`, `npm run verify:supabase:water`, `npm run verify:supabase:workout`, `npm run verify:supabase:sleep`, and `git diff --check`.
+- Continued into the next MVP logging prep after the user asked to go further.
+- Launched five reviewer agents for Product/Analyst, DB, Backend/Telegram, Frontend/Design, and QA/Security review of the meal/nutrition slice.
+- Integrated the agent results into a narrow DB-prep-only scope: prepare append-only `meal_logs` schema and verifier only, without runtime API, Home UI, XP, rank, streak, quest auto-completion, or bot notification side effects.
+- Added `supabase/migrations/0005_meal_logging.sql`.
+- Added `scripts/verify-supabase-meal-logging.mjs` and `npm run verify:supabase:meal`.
+- Added `meal_logs` to shared database types.
+- Strengthened the meal verifier beyond table existence by checking the local migration contract, required live columns, and anon insert blocking after apply.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`.
+- Ran `npm run verify:supabase:meal`; the sandboxed run hit `network_error`, and the approved out-of-sandbox rerun reached Supabase and returned `meal_logs: 404`.
+- Recorded that `/api/meal-logs` and Home nutrition quick-log remain blocked until `0005_meal_logging.sql` is applied and the meal verifier passes.
+- Recorded a real hardening issue from QA review: existing log routes should reject unknown payload fields before meal runtime expands the logging surface.
+- Continued after the user asked to go further with `0005_meal_logging.sql` open.
+- Re-ran `npm run verify:supabase:meal`; the approved verifier reached Supabase, returned `meal_logs: 200`, confirmed anon insert probe `401`, and the meal DB gate passed.
+- Launched reviewer agents for log-route hardening and meal runtime review across Backend/Telegram, QA, Frontend/Design, Product/Security, and Docs/Memory.
+- Hardened `/api/water-logs`, `/api/workout-logs`, and `/api/sleep-logs` so unknown top-level payload fields return the existing invalid payload status before Telegram validation or Supabase access.
+- Added route-level regression tests for unknown client-owned fields on water, workout, and sleep log routes.
+- Added `/api/meal-logs` with Telegram validation, server-derived `profile_id`, strict payload allowlist, `client_event_id` idempotency, meal log writes, and today's meal aggregate.
+- Added `MealQuickLogCard` and wired Home to read `mealToday` and submit compact nutrition quick logs through `/api/meal-logs`.
+- Kept meal logging log-only: no XP, rank, streak, quest auto-completion, or Telegram Bot notification side effects.
+- Added meal route tests and Home meal aggregate tests, including optional meal aggregate failure resilience.
+- Verified targeted route tests for meal/Home/water/workout/sleep and `npm run typecheck` during implementation.
+- Final verification passed: `npm test`, `npm run typecheck`, `npm run build`, `npm run verify:supabase:mvp`, `npm run verify:supabase:water`, `npm run verify:supabase:workout`, `npm run verify:supabase:sleep`, `npm run verify:supabase:meal`, and `git diff --check`.
+- Note: one parallel `npm run verify:supabase:sleep` attempt returned `network_error`; the approved out-of-sandbox rerun reached Supabase and passed with `sleep_logs: 200`.
+- Continued after the user asked to go further.
+- Confirmed the next planned step requires real Telegram WebView smoke testing, which cannot be honestly completed from this terminal session without a real Telegram launch or valid Mini App init data.
+- Started Level 3 anti-spam scoring and deterministic quest matching specification work before enabling any new progression effects.
+- Launched five reviewer agents for Product/Game Systems, Quest Matching, Backend/DB contract, QA/Security, and Telegram/UX review.
+- Added `04_DATA/Domain_Score_Logic.md` as the scoring guardrail source for domain scores, aggregate thresholds, side-effect idempotency, and anti-spam caps.
+- Updated XP, quest, rank, streak, and adaptive mission docs so logs remain evidence-first and future side effects require explicit metadata, server-derived identity/date, aggregate thresholds, idempotency, and caps.
+- Documented that title-text matching and broad domain matching are forbidden for new quest-to-log matchers.
+- Updated operational memory so the next implementation candidate is a post-smoke, metadata-driven matcher rather than direct rank/streak/domain scoring from raw logs.
+- Continued after the user asked to keep moving by plan.
+- Added Telegram quick-log smoke tooling at `scripts/smoke-telegram-quick-logs.mjs`.
+- Added `npm run smoke:telegram`.
+- Added `.env.example` placeholders for `TELEGRAM_TEST_INIT_DATA` and `TELEGRAM_SMOKE_BASE_URL`.
+- Documented that `TELEGRAM_TEST_INIT_DATA` must be captured from a real Telegram Mini App launch, stored only in ignored local env, and never printed or committed.
+- The smoke script calls `/api/home`, `/api/water-logs`, `/api/workout-logs`, `/api/sleep-logs`, and `/api/meal-logs`, then repeats each quick-log request with the same `clientEventId` to verify idempotency.
+- The smoke script sends `ngrok-skip-browser-warning: true` for ngrok automation and uses public server routes only, not direct Supabase access.
+- Verified `node --check scripts/smoke-telegram-quick-logs.mjs`, `npm run typecheck`, `npm test`, and `git diff --check`.
+- Ran a safe negative smoke check with intentionally invalid init data; it failed at `/api/home` with `missing_hash` and did not write log data.
+- Continued after the user asked to go further.
+- Confirmed `TELEGRAM_TEST_INIT_DATA` is still missing locally.
+- Added a development-only `Smoke token` copy action to `TelegramStatusCard` that appears only when real Telegram `initData` is available.
+- The copy action copies the raw value to clipboard for local `.env.local` use and does not render the secret value on screen.
+- Updated Telegram, security, current state, next steps, and sprint docs for the new capture path.
+- Verified `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.
+- Re-ran safe negative `npm run smoke:telegram` with intentionally invalid init data; it failed with `missing_hash` before any quick-log writes.
+- Continued after the user provided the explicit Telegram Mini App dev smoke-flow contract.
+- Added `src/lib/telegram/request-init-data.ts` so API routes can read body `initData` normally and fall back to `x-telegram-init-data` only in `NODE_ENV === "development"`.
+- Applied the shared init-data reader to `/api/home`, `/api/water-logs`, `/api/workout-logs`, `/api/sleep-logs`, and `/api/meal-logs` without adding `x-telegram-init-data` to allowed JSON body fields.
+- Updated `TelegramStatusCard` so the development-only debug block always renders in development, copies real `window.Telegram.WebApp.initData`, copies `initDataUnsafe` for debugging, and renders only a masked preview.
+- Updated `scripts/smoke-telegram-quick-logs.mjs` so `npm run smoke:telegram` requires `NEXT_PUBLIC_APP_URL`, sends captured init data only through `x-telegram-init-data`, and posts minimal valid bodies to all five smoke endpoints.
+- Added root `README.md` DEV TESTING instructions and updated env/security/Telegram docs for the new local flow.
+- Added route tests proving body `initData` still works, development header auth works for the five smoke endpoints, production header-only auth is rejected, and log-route allowlists remain intact.
+- Verification passed: targeted route tests, `node --check scripts/smoke-telegram-quick-logs.mjs`, `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.
+- Safe negative smoke with invalid init data against the already-running local dev server failed at `/api/home` with `missing_hash`, before any quick-log writes.
+- Continued after the user asked to go further.
+- Treated missing fresh `TELEGRAM_TEST_INIT_DATA` as a real live-smoke blocker and continued with the next safe metadata-driven matcher rather than fabricating Telegram auth.
+- Added `workout_log` metadata to newly seeded Warrior/Aesthetic Body main quests with `matchWindow = quest_date` and `minWorkoutSessions = 1`.
+- Added metadata-only workout quest matching in `src/lib/quests/log-quest-sync.ts`; no title fallback or broad domain fallback is allowed for workout.
+- Updated `/api/workout-logs` to sync only matching metadata-seeded workout quests after idempotent log writes or existing-log reads.
+- Updated Home workout quick-log handling to merge returned quest completion into the existing quest list, profile XP/level, and daily quest streak only through the normal quest completion response.
+- Added matcher unit tests and workout route tests for metadata-only matching and quest sync.
+- Updated scoring, quest, security, Telegram, current-state, next-step, sprint, decision, and open-question docs.
+- Verification passed: targeted workout matcher tests, `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.

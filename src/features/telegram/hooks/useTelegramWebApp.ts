@@ -11,6 +11,7 @@ import type { TelegramUser } from "@/shared/types/telegram";
 interface TelegramState {
   isReady: boolean;
   isTelegram: boolean;
+  initData: string;
   platform: string;
   version: string;
   user: TelegramUser | null;
@@ -19,6 +20,7 @@ interface TelegramState {
 const initialState: TelegramState = {
   isReady: false,
   isTelegram: false,
+  initData: "",
   platform: "browser",
   version: "unknown",
   user: null
@@ -45,6 +47,7 @@ export function useTelegramWebApp() {
     setState({
       isReady: true,
       isTelegram: true,
+      initData: webApp.initData,
       platform: webApp.platform,
       version: webApp.version,
       user: webApp.initDataUnsafe.user ?? null

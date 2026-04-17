@@ -10,7 +10,7 @@ Active
 Shared
 
 ## Last Updated
-2026-04-16
+2026-04-17
 
 ## Related Files
 - [[Backlog]]
@@ -41,8 +41,40 @@ Tasks:
 - Completed: add automated tests for Telegram init-data validation.
 - Completed: add `npm run verify:supabase:mvp` to verify the eight MVP tables after migration apply.
 - Completed: record the Level 3 parallel workstream map for Telegram identity and onboarding connection.
-- Blocked: live MVP table verification currently returns HTTP 404 for all eight tables.
-- Blocked: apply the MVP spine migration through Supabase Dashboard or a linked Supabase CLI workflow. The local CLI exists, but the workspace has no CLI access token/link.
-- Blocked: backend, frontend, QA, and integration implementation streams for profile/onboarding persistence are waiting for the DB gate to pass.
-- Next: implement profile lookup/create by validated Telegram identity.
-- Next: wire onboarding writes for goal and path through the validated server identity path.
+- Completed: live MVP table verification now passes for all eight tables.
+- Completed: implement profile lookup/create by validated Telegram identity.
+- Completed: wire onboarding writes for goal and path through the validated server identity path.
+- Completed: replace onboarding placeholder with a Telegram-first goal/path persistence flow.
+- Completed: add profile-aware Home state route and first real daily quest seed/write path.
+- Completed: wire Home shell to live profile state and seeded daily quests.
+- Completed: add daily quest completion, XP event write, and Home quick-complete flow.
+- Completed: add daily quest streak update path and show live streak on Home.
+- Completed: add route-level QA coverage around onboarding, Home state, quest completion, and streak contracts.
+- Completed: define and implement the first weekly check-in/read path.
+- Completed: choose water as the first MVP logging slice after the daily and weekly loops.
+- Completed: prepare `supabase/migrations/0002_water_logging.sql` and the water logging data/security contract.
+- Completed: verify the live `water_logs` table.
+- Completed: implement `/api/water-logs` with Telegram validation, server-derived ownership, and `client_event_id` idempotency.
+- Completed: add Home hydration quick-log and today's water aggregate.
+- Completed: choose workout logging as the next MVP logging slice.
+- Completed: prepare `supabase/migrations/0003_workout_logging.sql` and `npm run verify:supabase:workout`.
+- Completed: verify the live `workout_logs` table.
+- Completed: implement `/api/workout-logs` with Telegram validation, server-derived ownership, and `client_event_id` idempotency.
+- Completed: add Home workout quick-log and today's workout aggregate.
+- Completed: define and implement the first safe quest-to-log matching rule: hydration auto-completes only the assigned water quest after the server-side daily water aggregate reaches 1000 ml.
+- Completed: choose sleep/recovery as the next MVP logging slice and prepare `supabase/migrations/0004_sleep_logging.sql` plus `npm run verify:supabase:sleep`.
+- Completed: verify the live `sleep_logs` table.
+- Completed: implement `/api/sleep-logs` with Telegram validation, server-derived ownership, and `client_event_id` idempotency.
+- Completed: add Home sleep quick-log and today's sleep aggregate.
+- Completed: choose meal/nutrition as the next MVP logging slice after water, workout, and sleep.
+- Completed: prepare `supabase/migrations/0005_meal_logging.sql` and `npm run verify:supabase:meal`.
+- Completed: verify the live `meal_logs` table and anon insert blocking.
+- Completed: harden water, workout, and sleep log routes so unknown client fields fail closed before auth or persistence.
+- Completed: implement `/api/meal-logs` with Telegram validation, server-derived ownership, strict payload allowlist, and `client_event_id` idempotency.
+- Completed: add Home nutrition quick-log and today's meal aggregate.
+- Completed: define anti-spam scoring guardrails and deterministic quest-to-log matching rules for future log-based progression effects.
+- Completed: add `npm run smoke:telegram` to automate Home and quick-log route smoke testing after a real Telegram `initData` value is captured.
+- Completed: add a development-only Telegram runtime card action to copy real Mini App `initData` without rendering the secret on screen.
+- Completed: tighten Telegram WebView dev smoke flow so Home exposes `Copy initData` and `Copy initDataUnsafe` only in development, smoke requests use `NEXT_PUBLIC_APP_URL`, and five smoke endpoints accept `x-telegram-init-data` only in development.
+- Completed: implement the first post-hydration metadata-driven matcher: workout quick-log can auto-complete only newly seeded Body main quests with explicit `workout_log` metadata and a server-side session threshold.
+- Next: capture fresh `TELEGRAM_TEST_INIT_DATA` from the real Telegram WebView, set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev`, run `npm run smoke:telegram`, then choose the next explicit matcher candidate for sleep or meal.

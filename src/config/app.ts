@@ -21,3 +21,21 @@ export const ONBOARDING_STEPS = [
   "goal-selection",
   "path-selection"
 ] as const;
+
+export const MVP_GOAL_TYPES = [
+  "fat_loss",
+  "muscle_gain",
+  "recomposition",
+  "discipline",
+  "learning"
+] as const;
+
+export const MVP_PATH_KEYS = [
+  "warrior",
+  "discipline",
+  "scholar",
+  "polyglot",
+  "rebuild",
+  "aesthetic",
+  "balance"
+] as const;
