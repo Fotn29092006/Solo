@@ -25,6 +25,7 @@ Telegram surfaces:
 
 Current Mini App foundation:
 
+- `npm run dev` uses the webpack dev server for Telegram WebView compatibility; `npm run dev:turbo` is reserved for ordinary browser preview work.
 - Telegram WebApp script is loaded in `src/app/layout.tsx`.
 - WebApp detection and initialization live in `src/features/telegram/hooks/useTelegramWebApp.ts`.
 - The WebApp hook waits briefly for the Telegram SDK to become available before falling back to browser preview mode.

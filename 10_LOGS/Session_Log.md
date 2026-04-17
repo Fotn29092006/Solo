@@ -289,3 +289,7 @@ Shared
 - Added development-only client hydration diagnostics to `TelegramStatusCard`: `Client`, `SDK script`, and `document` readiness.
 - Updated `useTelegramWebApp` so missing-WebApp retry attempts update the visible diagnostic counter immediately instead of only after the final retry.
 - Verified `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.
+- Investigated the continuing `Client: not hydrated` screenshot.
+- Verified local HTML includes Next client scripts and the Telegram script preload.
+- Verified the public ngrok URL returned HTTP 200 and a representative `/_next/static/chunks/*.js` file returned HTTP 200 with `application/javascript`.
+- Changed `npm run dev` to `next dev --webpack` for Telegram WebView compatibility and added `npm run dev:turbo` for browser-only preview work.

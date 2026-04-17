@@ -49,6 +49,7 @@ Shared
 - Figma/design skills are installed for design work.
 - Application runtime foundation now exists at the repository root.
 - Next.js App Router project is configured with TypeScript and Tailwind CSS.
+- `npm run dev` uses Next.js webpack dev mode for Telegram Desktop WebView compatibility; `npm run dev:turbo` is available for ordinary browser preview work.
 - Runtime source lives under `src`, with `src/app`, `src/features`, `src/components`, `src/lib`, `src/config`, and `src/shared/types`.
 - Home screen shell exists at `src/app/page.tsx`.
 - Onboarding structure exists at `src/app/onboarding/page.tsx`.

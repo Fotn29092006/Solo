@@ -240,3 +240,10 @@ Shared
 - Role: Telegram.
 - Reviewer: QA, Security, Frontend.
 - Follow-up: If `Client` remains `not hydrated`, investigate WebView/client bundle execution. If `Client` is `active` but SDK remains missing, investigate loading of `https://telegram.org/js/telegram-web-app.js`. If SDK is available but `tgWebAppData` is missing, investigate BotFather/Open App/ngrok launch context.
+
+- Decision: Use Next.js webpack dev mode as the default local server for Telegram WebView testing.
+- Reason: Public ngrok HTML and Next.js JavaScript chunks were reachable, but Telegram Desktop still showed the server-rendered `Client: not hydrated` state. The previous dev bundle used Turbopack, which may be less reliable in Telegram Desktop WebView than webpack dev output.
+- Scope: `package.json`, `README.md`, and [[../05_TECH/Telegram_Integration]].
+- Role: Telegram.
+- Reviewer: QA, Frontend.
+- Follow-up: Restart the dev server with `npm run dev`, reconnect ngrok, reopen the Mini App through Telegram, and check whether `Client` changes to `active`.

@@ -44,6 +44,6 @@ Shared
 - Resolved 2026-04-17: Telegram smoke tooling now uses required `NEXT_PUBLIC_APP_URL` and development-only `x-telegram-init-data` header fallback for the five smoke endpoints.
 - Resolved 2026-04-17: simple workout session-count matching was chosen as the first metadata-driven matcher after hydration; it requires explicit `workout_log` metadata and does not use title/domain fallback.
 - Pending 2026-04-17: capture fresh valid `TELEGRAM_TEST_INIT_DATA` from Telegram WebView and run `npm run smoke:telegram` against `https://flashing-hazelnut-scored.ngrok-free.dev`.
-- Pending 2026-04-17: after the latest Telegram diagnostics are loaded, determine whether the user's Telegram Desktop launch has client hydration missing, SDK/WebApp missing, `tgWebAppData` missing, or `tgWebAppData` present but SDK `initData` missing.
+- Pending 2026-04-17: after restarting with webpack dev mode, determine whether the user's Telegram Desktop launch has client hydration missing, SDK/WebApp missing, `tgWebAppData` missing, or `tgWebAppData` present but SDK `initData` missing.
 - Pending 2026-04-17: choose the next metadata-driven matcher to implement; safest candidates are sleep duration or meal log count/type.
 - Pending 2026-04-17: define user-specific nutrition targets before meal/protein logs can affect quality XP, nutrition score, or rank.
