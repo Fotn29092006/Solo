@@ -247,3 +247,10 @@ Shared
 - Role: Telegram.
 - Reviewer: QA, Frontend.
 - Follow-up: Restart the dev server with `npm run dev`, reconnect ngrok, reopen the Mini App through Telegram, and check whether `Client` changes to `active`.
+
+- Decision: Add a no-React Telegram bridge fallback for development initData capture.
+- Reason: Telegram Desktop continued to show the server-rendered `Client: not hydrated` state after switching dev modes, so the capture path must not depend on Next/React hydration.
+- Scope: `src/app/layout.tsx`, `src/features/telegram/components/TelegramBridgeFallback.tsx`, `README.md`, and [[../05_TECH/Telegram_Integration]].
+- Role: Telegram.
+- Reviewer: QA, Security, Frontend.
+- Follow-up: Use the lower `Telegram bridge fallback` block to check whether ordinary inline browser scripts run in Telegram WebView and to copy real SDK `initData` or real `tgWebAppData` launch data when available.

@@ -27,6 +27,7 @@ Current Mini App foundation:
 
 - `npm run dev` uses the webpack dev server for Telegram WebView compatibility; `npm run dev:turbo` is reserved for ordinary browser preview work.
 - Telegram WebApp script is loaded in `src/app/layout.tsx`.
+- A direct development-only fallback capture block exists at `src/features/telegram/components/TelegramBridgeFallback.tsx`; it uses plain browser script and does not depend on React hydration.
 - WebApp detection and initialization live in `src/features/telegram/hooks/useTelegramWebApp.ts`.
 - The WebApp hook waits briefly for the Telegram SDK to become available before falling back to browser preview mode.
 - Safe area and viewport handling live in `src/lib/telegram/web-app.ts`.
@@ -175,6 +176,8 @@ Telegram smoke testing:
 - The diagnostics never render raw URL launch parameters or raw `initData`.
 - If the debug block shows SDK/WebApp available but `tgWebAppData` and `initData` missing, the page was opened without Telegram launch context, usually through a normal browser preview, a plain URL, or an interstitial/redirect that stripped the Telegram launch hash.
 - In production builds, the Telegram debug block is not rendered.
+- In development builds, `TelegramBridgeFallback` renders a separate `Telegram bridge fallback` block below the app shell. It can copy real `initData` from `window.Telegram.WebApp.initData` or the actual Telegram `tgWebAppData` launch parameter if React hydration is not running.
+- `TelegramBridgeFallback` never renders raw `initData`, raw `tgWebAppData`, or raw `initDataUnsafe`; raw values are copied only to clipboard.
 
 How to get local `TELEGRAM_TEST_INIT_DATA`:
 

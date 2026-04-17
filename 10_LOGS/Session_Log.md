@@ -293,3 +293,8 @@ Shared
 - Verified local HTML includes Next client scripts and the Telegram script preload.
 - Verified the public ngrok URL returned HTTP 200 and a representative `/_next/static/chunks/*.js` file returned HTTP 200 with `application/javascript`.
 - Changed `npm run dev` to `next dev --webpack` for Telegram WebView compatibility and added `npm run dev:turbo` for browser-only preview work.
+- Continued after the user confirmed the Telegram Desktop WebView still showed `Client: not hydrated`.
+- Added `src/features/telegram/components/TelegramBridgeFallback.tsx`, a development-only plain browser-script fallback that does not depend on React hydration.
+- Replaced the Next `Script` Telegram SDK loader in `src/app/layout.tsx` with a direct script tag and rendered the fallback bridge after the app shell.
+- The fallback bridge shows sanitized diagnostics and can copy real SDK `initData` or real Telegram `tgWebAppData` launch data to the clipboard without rendering raw secrets.
+- Verified `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.

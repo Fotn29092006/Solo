@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
+import { TelegramBridgeFallback } from "@/features/telegram/components/TelegramBridgeFallback";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,8 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
+        <script defer src="https://telegram.org/js/telegram-web-app.js" />
         {children}
+        <TelegramBridgeFallback />
       </body>
     </html>
   );

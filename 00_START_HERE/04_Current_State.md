@@ -139,6 +139,8 @@ Shared
 - `TelegramStatusCard` now renders development-only sanitized launch diagnostics for SDK availability, WebApp object availability, `initData` presence, `tgWebAppData` launch-param presence/source, platform/version param presence, unsafe user presence, and SDK wait attempts.
 - Telegram development diagnostics also show whether the client effect is active, whether the Telegram SDK script tag exists in the document, and the document readiness state.
 - The development diagnostics do not render raw Telegram launch parameters or raw `initData`.
+- `TelegramBridgeFallback` now provides a development-only no-React capture path that can copy real Telegram SDK `initData` or real launch `tgWebAppData` even when the main Next/React client bundle does not hydrate in Telegram WebView.
+- `src/app/layout.tsx` now loads the Telegram WebApp SDK through a direct script tag and renders the development-only fallback bridge after the app shell.
 - `/api/home`, `/api/water-logs`, `/api/workout-logs`, `/api/sleep-logs`, and `/api/meal-logs` accept `x-telegram-init-data` only in development mode for local smoke requests; production behavior still requires body `initData`.
 - `0005_meal_logging.sql` has been applied to the live development Supabase project and verified on 2026-04-17.
 - `npm run verify:supabase:meal` reached Supabase on 2026-04-17, confirmed `meal_logs` returned HTTP 200, and confirmed anon inserts are blocked with HTTP 401.

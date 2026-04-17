@@ -31,8 +31,8 @@ Validate the live quick-log loop in Telegram, then implement only the safest det
 Next tasks:
 
 1. Restart the local server with the Telegram-compatible webpack dev command: `npm run dev`, then reconnect ngrok to port 3000.
-2. Open the Mini App inside Telegram and read the development-only Telegram diagnostics. If `Client` stays `not hydrated`, client-side JS is not running. If `Client` is `active` but `tgWebAppData` is missing, the app was opened without Telegram launch context and cannot produce valid `initData`.
-3. Use the development-only `Copy initData` action to capture fresh `TELEGRAM_TEST_INIT_DATA`; store it only in ignored `.env.local`.
+2. Open the Mini App inside Telegram and read the development-only Telegram diagnostics. If the React card stays `Client: not hydrated`, scroll to the lower `Telegram bridge fallback` block and use its diagnostics/copy buttons.
+3. Use either `Copy initData` or `Copy bridge initData` to capture fresh real `TELEGRAM_TEST_INIT_DATA`; store it only in ignored `.env.local`.
 4. Set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev` locally and run `npm run smoke:telegram` to smoke-test Home hydration quest sync, workout quick-log, sleep quick-log, and meal quick-log.
 5. Keep sleep and meal quest auto-completion disabled until runtime matchers use explicit metadata and aggregate thresholds from `04_DATA/Domain_Score_Logic.md`.
 6. Implement the next matcher only for simple explicitly seeded quests, such as sleep duration target or meal-log count/type; do not match broad titles/domains.

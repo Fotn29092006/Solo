@@ -12,4 +12,6 @@
 
 If auth fails with `stale_auth_date`, reopen the Mini App inside Telegram and press `Copy initData` again to refresh `TELEGRAM_TEST_INIT_DATA`.
 
+If the React debug card stays `Client: not hydrated`, use the lower `Telegram bridge fallback` block instead. It is development-only, does not depend on React hydration, and can copy real launch `initData` from Telegram SDK or `tgWebAppData` when available.
+
 `npm run dev` uses the webpack dev server because Telegram Desktop WebView may not hydrate the Turbopack dev bundle reliably. Use `npm run dev:turbo` only for ordinary browser preview work.
