@@ -278,3 +278,10 @@ Shared
 - Added matcher unit tests and workout route tests for metadata-only matching and quest sync.
 - Updated scoring, quest, security, Telegram, current-state, next-step, sprint, decision, and open-question docs.
 - Verification passed: targeted workout matcher tests, `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.
+- Investigated user-reported Telegram Desktop launch still showing `Platform: browser` and `User: Not linked` after using the bot Open App button.
+- Verified from local code that the Telegram WebApp script is loaded in `src/app/layout.tsx`, but `useTelegramWebApp` previously checked for `window.Telegram.WebApp` only once.
+- Added a short SDK wait/retry in `useTelegramWebApp` before falling back to browser preview mode.
+- Added development-only sanitized launch diagnostics to `TelegramStatusCard`: SDK availability, WebApp object availability, `initData` presence, `tgWebAppData` launch-param presence/source, platform/version param presence, unsafe user presence, and SDK wait attempts.
+- Kept diagnostics secret-safe: no raw `initData`, raw `initDataUnsafe`, or raw URL launch parameters are rendered.
+- Improved the debug card layout so buttons do not overflow on narrow Telegram WebView widths.
+- Verification passed: `npm run typecheck`, `npm test`, `npm run build`, and `git diff --check`.

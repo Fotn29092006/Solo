@@ -9,6 +9,7 @@ export function TelegramStatusCard() {
   const [copyStatus, setCopyStatus] = useState("");
   const [initDataPreview, setInitDataPreview] = useState("");
   const isDevelopment = process.env.NODE_ENV === "development";
+  const runtimeMessage = getRuntimeMessage(telegram);
   const displayName =
     telegram.user?.username ??
     [telegram.user?.first_name, telegram.user?.last_name].filter(Boolean).join(" ") ??
@@ -18,7 +19,7 @@ export function TelegramStatusCard() {
     const initData = window.Telegram?.WebApp?.initData ?? "";
 
     if (!initData) {
-      setCopyStatus("No initData: open inside Telegram");
+      setCopyStatus(getMissingInitDataMessage(telegram.diagnostics));
       setInitDataPreview("");
       return;
     }
@@ -36,7 +37,7 @@ export function TelegramStatusCard() {
     const initDataUnsafe = window.Telegram?.WebApp?.initDataUnsafe;
 
     if (!initDataUnsafe) {
-      setCopyStatus("No initDataUnsafe: open inside Telegram");
+      setCopyStatus(getMissingInitDataMessage(telegram.diagnostics));
       setInitDataPreview("");
       return;
     }
@@ -54,11 +55,7 @@ export function TelegramStatusCard() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-semibold text-[var(--foreground)]">Telegram runtime</p>
-          <p className="mt-1 text-sm text-[var(--muted)]">
-            {telegram.isTelegram
-              ? "Mini App bridge detected and initialized."
-              : "Browser preview mode. Telegram user data is unavailable here."}
-          </p>
+          <p className="mt-1 text-sm text-[var(--muted)]">{runtimeMessage}</p>
         </div>
         <StatusPill label={telegram.isTelegram ? "Telegram" : "Preview"} tone={telegram.isTelegram ? "green" : "amber"} />
       </div>
@@ -76,23 +73,23 @@ export function TelegramStatusCard() {
 
       {isDevelopment ? (
         <div className="mt-3 rounded-[8px] border border-[var(--line)] bg-[var(--surface-strong)] p-3">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-xs font-semibold text-[var(--foreground)]">Development-only Telegram debug</p>
               <p className="mt-1 text-xs text-[var(--muted)]">
                 Copy real Mini App initData into local TELEGRAM_TEST_INIT_DATA. Raw values are never rendered here.
               </p>
             </div>
-            <div className="flex shrink-0 flex-col gap-2">
+            <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
               <button
-                className="focus-ring rounded-[8px] border border-[var(--line)] px-3 py-2 text-xs font-semibold"
+                className="focus-ring w-full rounded-[8px] border border-[var(--line)] px-3 py-2 text-xs font-semibold sm:w-auto"
                 onClick={() => void copyInitData()}
                 type="button"
               >
                 Copy initData
               </button>
               <button
-                className="focus-ring rounded-[8px] border border-[var(--line)] px-3 py-2 text-xs font-semibold"
+                className="focus-ring w-full rounded-[8px] border border-[var(--line)] px-3 py-2 text-xs font-semibold sm:w-auto"
                 onClick={() => void copyInitDataUnsafe()}
                 type="button"
               >
@@ -100,6 +97,19 @@ export function TelegramStatusCard() {
               </button>
             </div>
           </div>
+          <dl className="mt-3 grid grid-cols-2 gap-2 text-xs md:grid-cols-4">
+            <DebugSignal label="SDK" value={telegram.diagnostics.sdkAvailable ? "loaded" : "missing"} />
+            <DebugSignal label="WebApp" value={telegram.diagnostics.webAppAvailable ? "available" : "missing"} />
+            <DebugSignal label="initData" value={telegram.diagnostics.hasInitData ? "present" : "missing"} />
+            <DebugSignal label="tgWebAppData" value={telegram.diagnostics.hasLaunchDataParam ? telegram.diagnostics.launchParamSource : "missing"} />
+            <DebugSignal label="platform param" value={formatFlag(telegram.diagnostics.hasLaunchPlatformParam)} />
+            <DebugSignal label="version param" value={formatFlag(telegram.diagnostics.hasLaunchVersionParam)} />
+            <DebugSignal label="unsafe user" value={formatFlag(telegram.diagnostics.hasInitDataUnsafeUser)} />
+            <DebugSignal label="SDK wait" value={`${telegram.diagnostics.attempts} checks`} />
+          </dl>
+          {!telegram.diagnostics.hasInitData ? (
+            <p className="mt-2 text-xs text-[var(--muted)]">{getMissingInitDataMessage(telegram.diagnostics)}</p>
+          ) : null}
           {initDataPreview ? (
             <p className="mt-2 break-words text-xs text-[var(--muted)]">{initDataPreview}</p>
           ) : null}
@@ -108,6 +118,43 @@ export function TelegramStatusCard() {
       ) : null}
     </section>
   );
+}
+
+function DebugSignal({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[8px] border border-[var(--line)] px-2 py-2">
+      <dt className="text-[var(--muted)]">{label}</dt>
+      <dd className="mt-1 font-semibold text-[var(--foreground)]">{value}</dd>
+    </div>
+  );
+}
+
+function getRuntimeMessage(telegram: ReturnType<typeof useTelegramWebApp>) {
+  if (telegram.initData) {
+    return "Mini App bridge detected with real Telegram initData.";
+  }
+
+  if (telegram.diagnostics.webAppAvailable) {
+    return "Telegram SDK is loaded, but user auth data is unavailable.";
+  }
+
+  if (telegram.isReady) {
+    return "Browser preview mode. Telegram user data is unavailable here.";
+  }
+
+  return "Checking Telegram Mini App bridge.";
+}
+
+function getMissingInitDataMessage(diagnostics: ReturnType<typeof useTelegramWebApp>["diagnostics"]) {
+  if (!diagnostics.sdkAvailable || !diagnostics.webAppAvailable) {
+    return "No initData: Telegram WebApp SDK is not available in this page yet.";
+  }
+
+  if (!diagnostics.hasLaunchDataParam) {
+    return "No initData: this page was opened without Telegram launch data. Open it from the bot Mini App button after passing any ngrok warning.";
+  }
+
+  return "No initData: launch parameters are present, but Telegram SDK did not expose auth data. Reopen the Mini App inside Telegram.";
 }
 
 function createInitDataPreview(value: string) {
@@ -123,6 +170,10 @@ function createInitDataPreview(value: string) {
 }
 
 function flag(value: boolean) {
+  return value ? "yes" : "no";
+}
+
+function formatFlag(value: boolean) {
   return value ? "yes" : "no";
 }
 

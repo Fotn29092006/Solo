@@ -30,14 +30,15 @@ Validate the live quick-log loop in Telegram, then implement only the safest det
 
 Next tasks:
 
-1. Open the Mini App inside Telegram and use the development-only `Copy initData` action to capture fresh `TELEGRAM_TEST_INIT_DATA`; store it only in ignored `.env.local`.
-2. Set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev` locally and run `npm run smoke:telegram` to smoke-test Home hydration quest sync, workout quick-log, sleep quick-log, and meal quick-log.
-3. Keep sleep and meal quest auto-completion disabled until runtime matchers use explicit metadata and aggregate thresholds from `04_DATA/Domain_Score_Logic.md`.
-4. Implement the next matcher only for simple explicitly seeded quests, such as sleep duration target or meal-log count/type; do not match broad titles/domains.
-5. Keep rank, standalone streaks, domain scores, penalties, and bot notifications disabled for raw logs until daily caps and rolling aggregate scoring are implemented.
-6. Rotate the Telegram Bot token and Supabase service role key before production use.
-7. Configure BotFather/Mini App launch URL when the public Mini App URL exists.
-8. Finalize exact public app name and MVP domain boundaries.
+1. Open the Mini App inside Telegram and read the development-only Telegram diagnostics. If `tgWebAppData` is missing, the app was opened without Telegram launch context and cannot produce valid `initData`.
+2. Use the development-only `Copy initData` action to capture fresh `TELEGRAM_TEST_INIT_DATA`; store it only in ignored `.env.local`.
+3. Set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev` locally and run `npm run smoke:telegram` to smoke-test Home hydration quest sync, workout quick-log, sleep quick-log, and meal quick-log.
+4. Keep sleep and meal quest auto-completion disabled until runtime matchers use explicit metadata and aggregate thresholds from `04_DATA/Domain_Score_Logic.md`.
+5. Implement the next matcher only for simple explicitly seeded quests, such as sleep duration target or meal-log count/type; do not match broad titles/domains.
+6. Keep rank, standalone streaks, domain scores, penalties, and bot notifications disabled for raw logs until daily caps and rolling aggregate scoring are implemented.
+7. Rotate the Telegram Bot token and Supabase service role key before production use.
+8. Configure BotFather/Mini App launch URL when the public Mini App URL exists.
+9. Finalize exact public app name and MVP domain boundaries.
 
 Current blocker:
 
@@ -50,6 +51,7 @@ Current blocker:
 - The meal logging DB gate passes.
 - Anti-spam scoring and deterministic matching guardrails are now documented, but real Telegram smoke testing is still external to this terminal session.
 - Telegram quick-log smoke tooling exists, but a fresh valid `TELEGRAM_TEST_INIT_DATA` value is still required for a real passing smoke run.
+- User-reported Telegram Desktop launch still displayed browser preview on 2026-04-17; the next diagnostic check must compare SDK/WebApp availability and `tgWebAppData` launch-param presence.
 - Future migrations still need Dashboard SQL or authenticated Supabase CLI workflow before runtime writes are implemented.
 
 Do not change:

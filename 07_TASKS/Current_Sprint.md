@@ -77,4 +77,5 @@ Tasks:
 - Completed: add a development-only Telegram runtime card action to copy real Mini App `initData` without rendering the secret on screen.
 - Completed: tighten Telegram WebView dev smoke flow so Home exposes `Copy initData` and `Copy initDataUnsafe` only in development, smoke requests use `NEXT_PUBLIC_APP_URL`, and five smoke endpoints accept `x-telegram-init-data` only in development.
 - Completed: implement the first post-hydration metadata-driven matcher: workout quick-log can auto-complete only newly seeded Body main quests with explicit `workout_log` metadata and a server-side session threshold.
-- Next: capture fresh `TELEGRAM_TEST_INIT_DATA` from the real Telegram WebView, set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev`, run `npm run smoke:telegram`, then choose the next explicit matcher candidate for sleep or meal.
+- Completed: add SDK retry and development-only sanitized Telegram launch diagnostics after Telegram Desktop still showed browser preview.
+- Next: reopen the Mini App through Telegram, read the SDK/WebApp/initData/tgWebAppData diagnostics, capture fresh `TELEGRAM_TEST_INIT_DATA` if `initData` is present, set `NEXT_PUBLIC_APP_URL=https://flashing-hazelnut-scored.ngrok-free.dev`, run `npm run smoke:telegram`, then choose the next explicit matcher candidate for sleep or meal.

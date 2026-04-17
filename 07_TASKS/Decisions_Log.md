@@ -226,3 +226,10 @@ Shared
 - Role: Backend.
 - Reviewer: QA, Telegram, Security, Product/Analyst.
 - Follow-up: Keep sleep and meal matchers disabled until they are implemented with the same explicit metadata, aggregate threshold, and idempotency rules.
+
+- Decision: Telegram WebApp client detection should wait briefly for the SDK and expose development-only sanitized launch diagnostics.
+- Reason: A user-reported Telegram Desktop launch still displayed browser preview; safe diagnostics are needed to distinguish delayed SDK loading from a launch that lacks `tgWebAppData`/`initData`, without exposing raw Telegram auth data.
+- Scope: `src/features/telegram/hooks/useTelegramWebApp.ts`, `src/features/telegram/components/TelegramStatusCard.tsx`, and [[../05_TECH/Telegram_Integration]].
+- Role: Telegram.
+- Reviewer: QA, Security, Frontend.
+- Follow-up: Reopen the Mini App through Telegram and report the debug flags for SDK, WebApp, `initData`, and `tgWebAppData`; if `tgWebAppData` is missing, fix BotFather/deep-link/ngrok launch rather than server auth.

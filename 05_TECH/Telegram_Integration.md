@@ -27,6 +27,7 @@ Current Mini App foundation:
 
 - Telegram WebApp script is loaded in `src/app/layout.tsx`.
 - WebApp detection and initialization live in `src/features/telegram/hooks/useTelegramWebApp.ts`.
+- The WebApp hook waits briefly for the Telegram SDK to become available before falling back to browser preview mode.
 - Safe area and viewport handling live in `src/lib/telegram/web-app.ts`.
 - Telegram runtime/user preview is shown by `src/features/telegram/components/TelegramStatusCard.tsx`.
 - Raw Telegram `initData` is exposed to client flows through `src/features/telegram/hooks/useTelegramWebApp.ts` for server submission only.
@@ -168,6 +169,9 @@ Telegram smoke testing:
 - In development mode, `TelegramStatusCard` always shows a Telegram debug block with `Copy initData` and `Copy initDataUnsafe`.
 - `Copy initData` reads `window.Telegram.WebApp.initData` at click time, copies the raw value, and renders only a masked preview with the first 80 characters and field-presence flags.
 - `Copy initDataUnsafe` copies `window.Telegram.WebApp.initDataUnsafe` JSON for debugging only and must not be used for auth.
+- The development debug block also shows sanitized launch diagnostics only: SDK availability, WebApp object availability, `initData` presence, `tgWebAppData` launch-param presence/source, platform/version param presence, unsafe user presence, and SDK wait attempts.
+- The diagnostics never render raw URL launch parameters or raw `initData`.
+- If the debug block shows SDK/WebApp available but `tgWebAppData` and `initData` missing, the page was opened without Telegram launch context, usually through a normal browser preview, a plain URL, or an interstitial/redirect that stripped the Telegram launch hash.
 - In production builds, the Telegram debug block is not rendered.
 
 How to get local `TELEGRAM_TEST_INIT_DATA`:
